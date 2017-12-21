@@ -57,39 +57,39 @@
           </th>
           <th>Note</th>
         </tr>
-        <tr v-for="(vl, k) in data" :key="k">
+        <tr v-for="(vl, k) in data" :key="k">          
           <th><a :href="'https://bittrex.com/Market/Index?MarketName=' + vl.market + '-' + vl.name" :target="vl.name">{{vl.name}}</a><span class="tag">{{vl.market}}</span></th>
-          <td><b class="tag">{{vl.volume | $number}}</b> <small class="tag">( {{vl.baseVolume | $number}} )</small></td>
+          <td><b class="tag">{{vl.volume | $number}}</b> <small class="tag">( {{vl.baseVolume | $number}} = {{ (vl.baseVolume * vl.last.usdt) | $number}} )</small></td>
           <td>
-            <div class="tag" v-if="vndRate"><b>{{toVND(vl.last, vl.market) | $number}}</b>&nbsp;<i class="has-text-danger">VND</i></div>
-            <div class="tag" v-if="vndRate">( {{toVND(vl.low, vl.market) | $number}} - {{toVND(vl.high, vl.market) | $number}} )</div>
+            <div class="tag" v-if="vndRate"><b>{{vl.last.vnd | $number}}</b>&nbsp;<i class="has-text-danger">VND</i></div>
+            <div class="tag" v-if="vndRate">( {{vl.low.vnd | $number}} - {{vl.high.vnd | $number}} )</div>
             <br v-if="vndRate"/>
-            <div class="tag"><b>{{toUSDT(vl.last, vl.market) | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
-            <div class="tag">( {{toUSDT(vl.low, vl.market) | $number}} - {{toUSDT(vl.high, vl.market) | $number}} )</div>
+            <div class="tag"><b>{{vl.last.usdt | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
+            <div class="tag">( {{vl.low.usdt | $number}} - {{vl.high.usdt | $number}} )</div>
             <br/>
-            <div class="tag"><b>{{toBTC(vl.last, vl.market) | $number}}</b>&nbsp;<i class="has-text-info">BTC</i></div>
-            <div class="tag">( {{toBTC(vl.low, vl.market) | $number}} - {{toBTC(vl.high, vl.market) | $number}} )</div>
+            <div class="tag"><b>{{vl.last.btc | $number}}</b>&nbsp;<i class="has-text-info">BTC</i></div>
+            <div class="tag">( {{vl.low.btc | $number}} - {{vl.high.btc | $number}} )</div>
             <br/>
-            <div class="tag"><b>{{toETH(vl.last, vl.market) | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
-            <div class="tag">( {{toETH(vl.low, vl.market) | $number}} - {{toETH(vl.high, vl.market) | $number}} )</div>
+            <div class="tag"><b>{{vl.last.eth | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
+            <div class="tag">( {{vl.low.eth | $number}} - {{vl.high.eth | $number}} )</div>
           </td>
           <td>
-            <div class="tag" v-if="vndRate"><b>{{toVND(vl.bid, vl.market) | $number}}</b>&nbsp;<i class="has-text-primary">VND</i></div>
+            <div class="tag" v-if="vndRate"><b>{{vl.bid.vnd | $number}}</b>&nbsp;<i class="has-text-primary">VND</i></div>
             <br v-if="vndRate"/>
-            <div class="tag"><b>{{toUSDT(vl.bid, vl.market) | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
+            <div class="tag"><b>{{vl.bid.usdt | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
             <br/>
-            <div class="tag"><b>{{toBTC(vl.bid, vl.market) | $number}}</b>&nbsp;<i class="has-text-info">BTC</i></div>
+            <div class="tag"><b>{{vl.bid.btc | $number}}</b>&nbsp;<i class="has-text-info">BTC</i></div>
             <br/>
-            <div class="tag"><b>{{toETH(vl.bid, vl.market) | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
+            <div class="tag"><b>{{vl.bid.eth | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
           </td>
           <td>
-            <div class="tag" v-if="vndRate"><b>{{toVND(vl.ask, vl.market) | $number}}</b>&nbsp;<i class="has-text-primary">VND</i></div>
+            <div class="tag" v-if="vndRate"><b>{{vl.ask.vnd | $number}}</b>&nbsp;<i class="has-text-primary">VND</i></div>
             <br v-if="vndRate"/>
-            <div class="tag"><b>{{toUSDT(vl.ask, vl.market) | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
+            <div class="tag"><b>{{vl.ask.usdt | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
             <br/>
-            <div class="tag"><b>{{toBTC(vl.ask, vl.market) | $number}}</b>&nbsp;<i class="has-text-info">BTC</i></div>
+            <div class="tag"><b>{{vl.ask.btc | $number}}</b>&nbsp;<i class="has-text-info">BTC</i></div>
             <br/>
-            <div class="tag"><b>{{toETH(vl.ask, vl.market) | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
+            <div class="tag"><b>{{vl.ask.eth | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
           </td>
           <td><span class="fa" :class="{'fa-long-arrow-down has-text-danger': vl.status < 0, 'fa-long-arrow-up has-text-success': vl.status > 0}"></span>
             &nbsp;{{vl.status}} lần liên tục</td>
@@ -98,11 +98,6 @@
     </div>   
   </div>
 </template>
-<style scoped>
-.jsoneditor-vue {
-  height: 600px;
-}
-</style>
 
 <script>
 import * as _ from 'lodash'
@@ -142,20 +137,20 @@ export default {
       }
       if (this.fcoinname) {
         data = data.filter(e => {
-          return e.name.indexOf(this.fcoinname.toUpperCase()) !== -1
+          return `${e.market}-${e.name}`.indexOf(this.fcoinname.toUpperCase()) !== -1
         })
       }
       if (this.sortVolume % 3 === 1) data.sort((a, b) => b.volume - a.volume)
-      if (this.sortVolume % 3 === 2) data.sort((a, b) => a.volume - b.volume)
+      else if (this.sortVolume % 3 === 2) data.sort((a, b) => a.volume - b.volume)
 
-      if (this.sortLast % 3 === 1) data.sort((a, b) => b.last - a.last)
-      if (this.sortLast % 3 === 2) data.sort((a, b) => a.last - b.last)
+      else if (this.sortLast % 3 === 1) data.sort((a, b) => b.last - a.last)
+      else if (this.sortLast % 3 === 2) data.sort((a, b) => a.last - b.last)
 
-      if (this.sortBid % 3 === 1) data.sort((a, b) => b.bid - a.bid)
-      if (this.sortBid % 3 === 2) data.sort((a, b) => a.bid - b.bid)
+      else if (this.sortBid % 3 === 1) data.sort((a, b) => b.bid - a.bid)
+      else if (this.sortBid % 3 === 2) data.sort((a, b) => a.bid - b.bid)
 
-      if (this.sortAsk % 3 === 1) data.sort((a, b) => b.ask - a.ask)
-      if (this.sortAsk % 3 === 2) data.sort((a, b) => a.ask - b.ask)
+      else if (this.sortAsk % 3 === 1) data.sort((a, b) => b.ask - a.ask)
+      else if (this.sortAsk % 3 === 2) data.sort((a, b) => a.ask - b.ask)
       return data
     }
   },
@@ -166,9 +161,6 @@ export default {
     $route({ name }) {}
   },
   methods: {
-    toVND(price, market) {
-      return this.toUSDT(price, market) * (this.vndRate || 1)
-    },
     toETH(price, market) {
       return price * (this.rate[`${market}-ETH`] || 1)
     },
@@ -178,33 +170,83 @@ export default {
     toUSDT(price, market) {
       return price * (this.rate[`${market}-USDT`] || 1)
     },
+    convertData(data) {
+      const self = this
+      return data.map(e => {
+        e.last = {
+          get vnd() {
+            return self.vndRate * this.usdt
+          },
+          usdt: self.toUSDT(e.last, e.market),
+          btc: self.toBTC(e.last, e.market),
+          eth: self.toETH(e.last, e.market)
+        }
+        e.low = {
+          get vnd() {
+            return self.vndRate * this.usdt
+          },
+          usdt: self.toUSDT(e.low, e.market),
+          btc: self.toBTC(e.low, e.market),
+          eth: self.toETH(e.low, e.market)
+        }
+        e.high = {
+          get vnd() {
+            return self.vndRate * this.usdt
+          },
+          usdt: self.toUSDT(e.high, e.market),
+          btc: self.toBTC(e.high, e.market),
+          eth: self.toETH(e.high, e.market)
+        }
+        e.bid = {
+          get vnd() {
+            return self.vndRate * this.usdt
+          },
+          usdt: self.toUSDT(e.bid, e.market),
+          btc: self.toBTC(e.bid, e.market),
+          eth: self.toETH(e.bid, e.market)
+        }
+        e.ask = {
+          get vnd() {
+            return self.vndRate * this.usdt
+          },
+          usdt: self.toUSDT(e.ask, e.market),
+          btc: self.toBTC(e.ask, e.market),
+          eth: self.toETH(e.ask, e.market)
+        }
+        return e
+      })
+    },
     getTatca() {
       const self = this
       Bittrex.getPrice().then(data => {
         self.rate = data.rate
-        self.tmpData = data.data
+        self.tmpData = self.convertData(data.data)
+        window.a = self.tmpData
         self.menu = 'tatca'
       })
     },
     getTangManh() {
+      const self = this
       Bittrex.getPrice('tangmanh').then(data => {
-        this.rate = data.rate
-        this.tmpData = data.data
-        this.menu = 'tatca'
+        self.rate = data.rate
+        self.tmpData = self.convertData(data.data)
+        self.menu = 'tatca'
       })
     },
     getGiamManh() {
+      const self = this
       Bittrex.getPrice('giammanh').then(data => {
-        this.rate = data.rate
-        this.tmpData = data.data
-        this.menu = 'giammanh'
+        self.rate = data.rate
+        self.tmpData = self.convertData(data.data)
+        self.menu = 'giammanh'
       })
     },
     getBinhthuong() {
+      const self = this
       Bittrex.getPrice('binhthuong').then(data => {
-        this.rate = data.rate
-        this.tmpData = data.data
-        this.menu = 'binhthuong'
+        self.rate = data.rate
+        self.tmpData = self.convertData(data.data)
+        self.menu = 'binhthuong'
       })
     }
   }
