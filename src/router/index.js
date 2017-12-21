@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PageNotFound from '@/components/PageNotFound'
+import PageNotFound from '@/view/PageNotFound'
 import ZoneRoutes from './zones.routes'
 
 Vue.use(Router)

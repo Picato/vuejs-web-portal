@@ -15,5 +15,4 @@ yarn-error.log*
 
 /temp
 package-lock.json
-/src/zones/**
-/src/router/zones.routes.js
+!/src/zones/*.gitkeep
