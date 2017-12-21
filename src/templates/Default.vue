@@ -1,13 +1,11 @@
 <template>
-  <div class="columns">
-    <div class="column">
-      <transition name="slide-fade">
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
-      </transition>
-    </div>
-  </div>
+  <section class="section">
+    <transition name="slide-fade">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </transition>
+  </section>
 </template>
 
 <script>
