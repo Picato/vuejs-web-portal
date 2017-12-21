@@ -5,6 +5,7 @@
   "author": "doanthuanthanh88@gmail.com",
   "private": true,
   "scripts": {
+    "newplugin": "cd src/zones/ && git clone https://github.com/doanthuanthanh88/vuejs-web-portal.git -b empty-plugin --single-branch ",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
