@@ -4,7 +4,7 @@ import CheckingMarket from './components/CheckingMarket'
 export default [{
   component: DefaultTemplate,
   children: [{
-    path: 'checking-market',
+    path: 'market',
     name: 'CheckingMarket',
     component: CheckingMarket
   }]

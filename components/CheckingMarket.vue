@@ -13,7 +13,7 @@
     <div v-if="menu === 'tatca'">
       <MarketComponent :rate="rate"></MarketComponent>
     </div> 
-    <div v-if="menu === 'tinhlai'">
+    <div v-else-if="menu === 'tinhlai'">
       <TinhLaiComponent :rate="rate"></TinhLaiComponent>      
     </div>
   </div>
