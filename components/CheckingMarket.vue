@@ -67,10 +67,10 @@ export default {
     },
     loadRate() {
       const self = this
-      Bittrex.getPrice('tatca').then(data => {
-        self.rate = Object.assign({}, self.rate, data.rate)
+      Bittrex.getRate().then(data => {
+        self.rate = Object.assign({}, self.rate, data)
         self.lastsync = new Date()
-        setTimeout(self.loadRate, 5000)
+        setTimeout(self.loadRate, 30000)
       })
     }
   }

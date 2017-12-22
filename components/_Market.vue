@@ -206,25 +206,26 @@ export default {
     getTatca() {
       const self = this
       Bittrex.getPrice().then(data => {
-        self.tmpData = self.convertData(data.data)
+        self.tmpData = self.convertData(data)
+        setTimeout(self.getTatca, 30000)
       })
     },
     getTangManh() {
       const self = this
       Bittrex.getPrice('tangmanh').then(data => {
-        self.tmpData = self.convertData(data.data)
+        self.tmpData = self.convertData(data)
       })
     },
     getGiamManh() {
       const self = this
       Bittrex.getPrice('giammanh').then(data => {
-        self.tmpData = self.convertData(data.data)
+        self.tmpData = self.convertData(data)
       })
     },
     getBinhthuong() {
       const self = this
       Bittrex.getPrice('binhthuong').then(data => {
-        self.tmpData = self.convertData(data.data)
+        self.tmpData = self.convertData(data)
       })
     }
   }
