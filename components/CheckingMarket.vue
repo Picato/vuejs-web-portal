@@ -9,9 +9,9 @@
       </ul>
     </div>
     <div>
-      <MarketComponent :rate="rate" v-show="menu === 'tatca'"></MarketComponent>
-      <TinhLaiComponent :rate="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>      
-      <TelegramComponent :rate="rate" v-show="menu === 'telegram'"></TelegramComponent>      
+      <MarketComponent :rate="rate" v-if="rate" v-show="menu === 'tatca'"></MarketComponent>
+      <TinhLaiComponent :rate="rate" v-if="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>      
+      <TelegramComponent v-show="menu === 'telegram'"></TelegramComponent>      
     </div>
 
   </div>
