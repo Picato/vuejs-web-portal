@@ -3,19 +3,17 @@
     <RateComponent v-if="rate" :rate="rate" :lastsync="lastsync" @changeVND="changeVND($event)"></RateComponent>
     <div class="tabs" v-if="rate">
       <ul>
-        <li :class="{'is-active': menu === 'tatca'}" @click="menu='tatca'"><a>Thống kê</a></li>
-        <!-- <li :class="{'is-active': menu === 'tangmanh'}" @click="getTangManh()"><a>Tăng mạnh</a></li>
-        <li :class="{'is-active': menu === 'giammanh'}" @click="getGiamManh()"><a>Giảm mạnh</a></li>
-        <li :class="{'is-active': menu === 'binhthuong'}" @click="getBinhthuong()"><a>Ít biến động</a></li>         -->
+        <li :class="{'is-active': menu === 'tatca'}" @click="menu='tatca'"><a>Thống kê</a></li>        
         <li :class="{'is-active': menu === 'tinhlai'}" @click="menu='tinhlai'"><a>Tính lãi</a></li>
+        <li :class="{'is-active': menu === 'telegram'}" @click="menu='telegram'"><a>Tăng mạnh</a></li>
       </ul>
     </div>
-    <div v-if="menu === 'tatca'">
-      <MarketComponent :rate="rate"></MarketComponent>
-    </div> 
-    <div v-else-if="menu === 'tinhlai'">
-      <TinhLaiComponent :rate="rate"></TinhLaiComponent>      
+    <div>
+      <MarketComponent :rate="rate" v-show="menu === 'tatca'"></MarketComponent>
+      <TinhLaiComponent :rate="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>      
+      <TelegramComponent :rate="rate" v-show="menu === 'telegram'"></TelegramComponent>      
     </div>
+
   </div>
 </template>
 <style>
@@ -38,10 +36,11 @@
 import MarketComponent from './_Market'
 import TinhLaiComponent from './_TinhLai'
 import RateComponent from './_Rate'
+import TelegramComponent from './_Telegram'
 import Bittrex from '../provider/Bittrex'
 
 export default {
-  components: { MarketComponent, TinhLaiComponent, RateComponent },
+  components: { MarketComponent, TinhLaiComponent, RateComponent, TelegramComponent },
   filters: {
     $coinname(value) {
       return value.split('-')[0]

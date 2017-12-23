@@ -129,17 +129,18 @@ export default {
           return e.name.indexOf(this.fcoinname.toUpperCase()) !== -1
         })
       }
+
       if (this.sortVolume % 3 === 1) data.sort((a, b) => b.baseVolume.usdt - a.baseVolume.usdt)
       else if (this.sortVolume % 3 === 2) data.sort((a, b) => a.baseVolume.usdt - b.baseVolume.usdt)
 
-      else if (this.sortLast % 3 === 1) data.sort((a, b) => b.last - a.last)
-      else if (this.sortLast % 3 === 2) data.sort((a, b) => a.last - b.last)
+      else if (this.sortLast % 3 === 1) data.sort((a, b) => b.last.usdt - a.last.usdt)
+      else if (this.sortLast % 3 === 2) data.sort((a, b) => a.last.usdt - b.last.usdt)
 
-      else if (this.sortBid % 3 === 1) data.sort((a, b) => b.bid - a.bid)
-      else if (this.sortBid % 3 === 2) data.sort((a, b) => a.bid - b.bid)
+      else if (this.sortBid % 3 === 1) data.sort((a, b) => b.bid.usdt - a.bid.usdt)
+      else if (this.sortBid % 3 === 2) data.sort((a, b) => a.bid.usdt - b.bid.usdt)
 
-      else if (this.sortAsk % 3 === 1) data.sort((a, b) => b.ask - a.ask)
-      else if (this.sortAsk % 3 === 2) data.sort((a, b) => a.ask - b.ask)
+      else if (this.sortAsk % 3 === 1) data.sort((a, b) => b.ask.usdt - a.ask.usdt)
+      else if (this.sortAsk % 3 === 2) data.sort((a, b) => a.ask.usdt - b.ask.usdt)
       return data
     }
   },
