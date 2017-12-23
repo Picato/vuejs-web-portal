@@ -19,9 +19,6 @@
           </select>
         </div>
       </div>
-      <div class="column is-2">
-        <input class="input" type="text" placeholder="1USDT= ? VND" v-model="rate.vnd">
-      </div>
     </div>
     <table class="table is-bordered is-striped is-narrow is-fullwidth">
       <tr>
@@ -154,53 +151,36 @@ export default {
     convertData(data) {
       const self = this
       return data.map(e => {
-        // e.volume = Bittrex.toUSDT(e.volume, 'BTC')
-        const baseVolume = e.baseVolume
-        e.baseVolume = {
-          usdt: Bittrex.toUSDT(baseVolume, e.market, this.rate),
-          btc: e.market === 'BTC' ? baseVolume : undefined,
-          eth: e.market === 'ETH' ? baseVolume : undefined
-        }
-        e.last = {
-          get vnd() {
+        Object.defineProperty(e.prev, 'vnd', {
+          get() {
             return self.rate.vnd * this.usdt
-          },
-          usdt: Bittrex.toUSDT(e.last, e.market, this.rate),
-          btc: Bittrex.toBTC(e.last, e.market, this.rate),
-          eth: Bittrex.toETH(e.last, e.market, this.rate)
-        }
-        e.low = {
-          get vnd() {
+          }
+        })
+        Object.defineProperty(e.last, 'vnd', {
+          get() {
             return self.rate.vnd * this.usdt
-          },
-          usdt: Bittrex.toUSDT(e.low, e.market, this.rate),
-          btc: Bittrex.toBTC(e.low, e.market, this.rate),
-          eth: Bittrex.toETH(e.low, e.market, this.rate)
-        }
-        e.high = {
-          get vnd() {
+          }
+        })
+        Object.defineProperty(e.low, 'vnd', {
+          get() {
             return self.rate.vnd * this.usdt
-          },
-          usdt: Bittrex.toUSDT(e.high, e.market, this.rate),
-          btc: Bittrex.toBTC(e.high, e.market, this.rate),
-          eth: Bittrex.toETH(e.high, e.market, this.rate)
-        }
-        e.bid = {
-          get vnd() {
+          }
+        })
+        Object.defineProperty(e.high, 'vnd', {
+          get() {
             return self.rate.vnd * this.usdt
-          },
-          usdt: Bittrex.toUSDT(e.bid, e.market, this.rate),
-          btc: Bittrex.toBTC(e.bid, e.market, this.rate),
-          eth: Bittrex.toETH(e.bid, e.market, this.rate)
-        }
-        e.ask = {
-          get vnd() {
+          }
+        })
+        Object.defineProperty(e.bid, 'vnd', {
+          get() {
             return self.rate.vnd * this.usdt
-          },
-          usdt: Bittrex.toUSDT(e.ask, e.market, this.rate),
-          btc: Bittrex.toBTC(e.ask, e.market, this.rate),
-          eth: Bittrex.toETH(e.ask, e.market, this.rate)
-        }
+          }
+        })
+        Object.defineProperty(e.ask, 'vnd', {
+          get() {
+            return self.rate.vnd * this.usdt
+          }
+        })
         return e
       })
     },
