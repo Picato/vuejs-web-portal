@@ -43,7 +43,7 @@
             <i class="fa" v-show="this.sortAsk % 3 !== 0" :class="{'fa-level-up': this.sortAsk % 3 === 2, 'fa-level-down': this.sortAsk % 3 === 1}"></i>
           </span>
         </th>
-        <th>Note</th>
+        <th>So với 5p trước</th>
       </tr>
       <tr v-for="(vl, k) in data" :key="k">          
         <th><a :href="'https://bittrex.com/Market/Index?MarketName=' + vl.market + '-' + vl.name" :target="vl.name">{{vl.name}}</a><span class="tag">{{vl.market}}</span></th>
@@ -83,8 +83,12 @@
           <br/>
           <div class="tag is-eth"><b>{{vl.ask.eth | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
         </td>
-        <td><span class="fa" :class="{'fa-long-arrow-down has-text-danger': vl.status < 0, 'fa-long-arrow-up has-text-success': vl.status > 0}"></span>
-          &nbsp;{{vl.status}} lần liên tục</td>
+        <td>
+          <span class="fa" :class="{'fa-long-arrow-down has-text-danger': vl.trends.usdt < 0, 'fa-long-arrow-up has-text-success': vl.trends.usdt > 0}"></span>&nbsp;
+          <div class="tag is-vnd" v-if="rate.vnd && vl.trends.usdt != 0"><b>{{vl.trends.vnd | $number}}</b>&nbsp;<i class="has-text-dark">VND</i></div>
+          <br v-if="rate.vnd"/>
+          <div class="tag is-usdt" v-show="vl.trends.usdt != 0"><b>{{vl.trends.usdt | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
+        </td>
       </tr>
     </table>
   </div>
@@ -151,6 +155,13 @@ export default {
     convertData(data) {
       const self = this
       return data.map(e => {
+        if(e.trends) {
+          Object.defineProperty(e.trends, 'vnd', {
+            get() {
+              return self.rate.vnd * this.usdt
+            }
+          })
+        }
         Object.defineProperty(e.prev, 'vnd', {
           get() {
             return self.rate.vnd * this.usdt
