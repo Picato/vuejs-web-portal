@@ -155,7 +155,7 @@ export default {
     convertData(data) {
       const self = this
       return data.map(e => {
-        if(e.trends) {
+        if (e.trends) {
           Object.defineProperty(e.trends, 'vnd', {
             get() {
               return self.rate.vnd * this.usdt
