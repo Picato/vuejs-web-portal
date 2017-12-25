@@ -20,7 +20,10 @@
         </div>
       </div>
     </div>
-    <table class="table is-bordered is-striped is-narrow is-fullwidth">
+    <div v-if="data.length === 0">
+      Loading...
+    </div>
+    <table class="table is-bordered is-striped is-narrow is-fullwidth" v-else>
       <tr>
         <th>Market-Coin</th>
         <th @click="sortLast=sortBid=sortAsk=sortBuf=0; ++sortVolume;">Volume
@@ -43,7 +46,7 @@
             <i class="fa" v-show="this.sortAsk % 3 !== 0" :class="{'fa-level-up': this.sortAsk % 3 === 2, 'fa-level-down': this.sortAsk % 3 === 1}"></i>
           </span>
         </th>
-        <th @click="sortLast=sortBid=sortVolume=sortAsk; ++sortBuf;">5s
+        <th @click="sortLast=sortBid=sortVolume=sortAsk; ++sortBuf;">Giá 45 phút trước
           <span class="icon is-pulled-right">
             <i class="fa" v-show="this.sortBuf % 3 !== 0" :class="{'fa-level-up': this.sortBuf % 3 === 2, 'fa-level-down': this.sortBuf % 3 === 1}"></i>
           </span>
@@ -88,13 +91,7 @@
           <div class="tag is-eth"><b>{{vl.histories[0].ask.eth | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
         </td>
         <td>
-          <div v-if="vl.buf">
-            <span class="fa" :class="{'fa-long-arrow-down has-text-danger': vl.buf.usdt < 0, 'fa-long-arrow-up has-text-success': vl.buf.usdt > 0}"></span>&nbsp;            
-            <div class="tag is-vnd" v-if="rate.vnd"><b>{{vl.buf.vnd | $number}}</b>&nbsp;<i class="has-text-dark">VND</i></div>
-            <br v-if="rate.vnd"/>
-            <div class="tag is-usdt" v-show="vl.buf.percent !== 0"><b>{{vl.buf.percent | $number}}</b>&nbsp;<i class="has-text-primary">%</i></div><br/>
-            <div><small>{{vl.histories[1].last.usdt | $number}} USD - {{vl.last.usdt | $number}} USD</small></div>
-          </div>
+          <LineChart :data="vl.histories.map(e=>e.last[vl.market.toLowerCase()]).reverse()"></LineChart>
         </td>
       </tr>
     </table>
@@ -104,9 +101,11 @@
 <script>
 import * as _ from 'lodash'
 import Bittrex from '../provider/Bittrex'
+import LineChart from './_LineChart'
 
 export default {
   props: ['rate'],
+  components: { LineChart },
   filters: {
     $coinname(value) {
       return value.split('-')[0]

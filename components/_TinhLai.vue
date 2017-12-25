@@ -5,13 +5,13 @@
         <div class="columns">
           <div class="column is-3">
             <label class="label">Số coin mua vào</label>
-            <input class="input" type="number" placeholder="Số coin mua vào" v-model.number="inputCoin">
+            <input class="input" type="number" placeholder="Số coin mua vào" v-model.number="inputCoin" @blur="outputCoin = !outputCoin ? inputCoin : outputCoin">
           </div>
           <div class="column">
             <div class="field has-addons">
               <p class="control is-expanded">
                 <label class="label">Giá mua vào</label>
-                <input class="input" type="number" placeholder="Giá mua vào" v-model.number="inputMoney">
+                <input class="input" type="number" placeholder="Giá mua vào" v-model.number="inputMoney" @blur="outputMoney = !outputMoney ? inputMoney : outputMoney">
               </p>
               <p class="control">
                 <label class="label">&nbsp;</label>

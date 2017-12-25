@@ -50,7 +50,7 @@ export default {
     return {
       lastSync: undefined,
       rate: undefined,
-      menu: 'tinhlai'
+      menu: 'tatca'
     }
   },
   computed: { },
