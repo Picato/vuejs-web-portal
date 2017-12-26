@@ -15,5 +15,8 @@ export default {
   },
   getRate(type) {
     return axios.get(`http://localhost:10009/rate`).then(resp => resp.data)
+  },
+  getTrendsMin() {
+    return axios.get(`http://localhost:10009/trends-min`).then(resp => resp.data)
   }
 }
