@@ -10,9 +10,9 @@ Vue.filter('$show', function (value, field) {
   return value[field] || 'Unknown'
 })
 
-Vue.filter('$number', function (value) {
-  if (!value) return ''
-  return Number(value).toLocaleString(undefined, { maximumFractionDigits: 8 })
+Vue.filter('$number', function (value, defaultValue) {
+  if (!value) return defaultValue === undefined ? '' : defaultValue
+  return Number(value).toLocaleString(undefined, { maximumFractionDigits: 9 })
 })
 
 Vue.filter('$date', function (value, format) {
