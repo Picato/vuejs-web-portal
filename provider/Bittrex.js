@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const HOST = 'http://localhost:10009'
+
 export default {
   toETH(price, market, rate) {
     return price * (rate[`${market}-ETH`] || 1)
@@ -11,12 +13,12 @@ export default {
     return price * (rate[`${market}-USDT`] || 1)
   },
   getPrice(type) {
-    return axios.get(`http://localhost:10009/market`).then(resp => resp.data)
+    return axios.get(`${HOST}/market`).then(resp => resp.data)
   },
   getRate(type) {
-    return axios.get(`http://localhost:10009/rate`).then(resp => resp.data)
+    return axios.get(`${HOST}/rate`).then(resp => resp.data)
   },
   getTrendsMin() {
-    return axios.get(`http://localhost:10009/trends-min`).then(resp => resp.data)
+    return axios.get(`${HOST}/trends-min`).then(resp => resp.data)
   }
 }

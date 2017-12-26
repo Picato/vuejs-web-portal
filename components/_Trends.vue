@@ -2,52 +2,38 @@
   <div>
     <table class="table is-bordered is-striped is-narrow is-fullwidth" v-if="data">
       <tr>
-        <th></th>
+        <th width="2"></th>                               
+        <th width="2">% biến động sau 30p</th>
+        <th width="2">Last</th> 
         <th>Score</th>
-        <th>%</th>
-        <th>Last</th>
       </tr>
       <tbody v-for="vl in data" :key="vl._id">
         <tr>
-          <th><a :href="'https://bittrex.com/Market/Index?MarketName=' + vl.market + '-' + vl.name" :target="vl.name">{{vl.name}}</a><span class="tag">{{vl.market}}</span></th>
-          <td>{{vl.score}}</td>
-          <td>{{vl.percent}} %</td>
+          <th><a :href="'https://bittrex.com/Market/Index?MarketName=' + vl.market + '-' + vl.name" :target="vl.name">{{vl.name}}</a><span class="tag">{{vl.market}}</span></th>          
           <td>
-            <div class="tag is-usdt"><b>{{vl.last.usdt | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
-            <br/>
-            <div class="tag is-btc"><b>{{vl.last.btc | $number}}</b>&nbsp;<i class="has-text-info">BTC</i></div>
-            <br/>
-            <div class="tag is-eth"><b>{{vl.last.eth | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
+            <div :class="{'has-text-success': vl.percent > 0, 'has-text-danger': vl.percent < 0}"><span class="fa" :class="{'fa-long-arrow-up': vl.percent > 0, 'fa-long-arrow-down': vl.percent < 0}"></span>&nbsp;{{vl.percent}} %</div>
           </td>
+          <td>
+            <div class="tag"><b>{{vl.last[vl.market.toLowerCase()] | $number}}</b>&nbsp;<i class="has-text-primary">{{vl.market}}</i></div>
+          </td>
+          <td>{{vl.score | $number}}</td>
         </tr>
         <tr>
-          <td colspan="4">
-            <table class="table is-bordered is-striped is-narrow is-fullwidth">
-              <tr>
-                <td>Prev</td>
-                <td>Last</td>
-                <td>%</td>
-                <td>Time</td>
-              </tr>
+          <td colspan="3">
+            <table class="table is-bordered is-striped is-narrow">
               <tr v-for="(d, i) in vl.histories" :key="i">
-                <td>
-                  <div class="tag is-usdt"><b>{{d.prev.usdt | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
-                  <br/>
-                  <div class="tag is-btc"><b>{{d.prev.btc | $number}}</b>&nbsp;<i class="has-text-info">BTC</i></div>
-                  <br/>
-                  <div class="tag is-eth"><b>{{d.prev.eth | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
-                </td>
-                <td>
-                  <div class="tag is-usdt"><b>{{d.last.usdt | $number}}</b>&nbsp;<i class="has-text-primary">USDT</i></div>
-                  <br/>
-                  <div class="tag is-btc"><b>{{d.last.btc | $number}}</b>&nbsp;<i class="has-text-info">BTC</i></div>
-                  <br/>
-                  <div class="tag is-eth"><b>{{d.last.eth | $number}}</b>&nbsp;<i class="has-text-warning">ETH</i></div>
-                </td>
-                <td><span v-show="d.percent !== 0" :class="{'has-text-success': d.percent > 0, 'has-text-danger': d.percent < 0}"><span class="fa" :class="{'fa-long-arrow-up': d.percent > 0, 'fa-long-arrow-down': d.percent < 0}"></span>&nbsp;{{d.percent | $number}}</span></td>
                 <th>{{d.time | $date('HH:mm')}}<small class="tag">{{d.time | $date}}</small></th>
+                <td>
+                  <div class="tag"><b>{{d.last[vl.market.toLowerCase()] | $number}}</b>&nbsp;<i class="has-text-primary">{{vl.market}}</i></div>
+                </td>
+                <td><span v-show="d.percent !== 0" :class="{'has-text-success': d.percent > 0, 'has-text-danger': d.percent < 0}"><span class="fa" :class="{'fa-long-arrow-up': d.percent > 0, 'fa-long-arrow-down': d.percent < 0}"></span>&nbsp;{{d.percent | $number}} %</span></td>
               </tr>
             </table>
+          </td>
+          <td>
+            <ul>
+              <li v-for="(m, i) in vl.note" :key="i">{{m}}</li>
+            </ul>
           </td>
         </tr>
       </tbody>
