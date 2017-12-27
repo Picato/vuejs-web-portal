@@ -18,7 +18,9 @@ export default {
   getRate(type) {
     return axios.get(`${HOST}/rate`).then(resp => resp.data)
   },
-  getTrendsMin() {
-    return axios.get(`${HOST}/trends-min`).then(resp => resp.data)
+  getTrends(type) {
+    return axios.get(`${HOST}/trends`, {
+      params: { type }
+    }).then(resp => resp.data)
   }
 }

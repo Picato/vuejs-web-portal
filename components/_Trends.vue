@@ -1,6 +1,24 @@
 <template>
   <div>
-    <table class="table is-bordered is-striped is-narrow is-fullwidth" v-if="data">
+    <div class="control">
+      <label class="radio">
+        <input type="radio" name="type" value="min" v-model="type" @change="changeType()">
+        Last 30 minutes
+      </label>
+      <label class="radio">
+        <input type="radio" name="type" value="hour" v-model="type" @change="changeType()">
+        Last 5 hours
+      </label>
+      <label class="radio">
+        <input type="radio" name="type" value="day" v-model="type" @change="changeType()">
+        Last 5 days
+      </label>
+    </div>
+    <br/>
+    <div v-if="!data">
+      Loading...
+    </div>
+    <table class="table is-bordered is-striped is-narrow is-fullwidth" v-else>
       <tr>
         <th width="2"></th>                               
         <th width="2">% biến động sau 30p</th>
@@ -22,7 +40,8 @@
           <td colspan="3">
             <table class="table is-bordered is-striped is-narrow">
               <tr v-for="(d, i) in vl.histories" :key="i">
-                <th>{{d.time | $date('HH:mm')}}<small class="tag">{{d.time | $date}}</small></th>
+                <th v-if="type !== 'day'">{{d.time | $date('HH:mm')}}<small class="tag">{{d.time | $date}}</small></th>
+                <th v-else>{{d.time | $date}}</th>
                 <td>
                   <div class="tag"><b>{{d.last[vl.market.toLowerCase()] | $number}}</b>&nbsp;<i class="has-text-primary">{{vl.market}}</i></div>
                 </td>
@@ -52,20 +71,32 @@ export default {
   filters: { },
   data() {
     return {
+      type: 'day',
       data: undefined,
       test: undefined
     }
   },
   computed: { },
   mounted() {
-    const self = this
-    Bittrex.getTrendsMin().then((data) => {
-      self.data = data
-    })
+    this.changeType()
   },
   watch: {
-    $route({ name }) {}
+    $route({ name }) {},
+    type(value) {
+      const self = this
+      Bittrex.getTrends(this.type).then((data) => {
+        self.data = data
+      })
+    }
   },
-  methods: { }
+  methods: {
+    changeType() {
+      const self = this
+      this.data = undefined
+      Bittrex.getTrends(this.type).then((data) => {
+        self.data = data
+      })
+    }
+  }
 }
 </script> 
