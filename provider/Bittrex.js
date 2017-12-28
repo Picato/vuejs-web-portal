@@ -22,5 +22,8 @@ export default {
     return axios.get(`${HOST}/trends`, {
       params: { type }
     }).then(resp => resp.data)
+  },
+  getTrendingMessage() {
+    return axios.get(`${HOST}/trending-message`).then(resp => resp.data)
   }
 }

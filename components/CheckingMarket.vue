@@ -7,6 +7,7 @@
         <li :class="{'is-active': menu === 'tinhlai'}" @click="menu='tinhlai'"><a>Tính lãi</a></li>
         <li :class="{'is-active': menu === 'telegram'}" @click="menu='telegram'"><a>Newsfeed</a></li>
         <li :class="{'is-active': menu === 'trends'}" @click="menu='trends'"><a>Trendding</a></li>
+        <li :class="{'is-active': menu === 'trendingmessage'}" @click="menu='trendingmessage'"><a>Trendding messsages</a></li>
       </ul>
     </div>
     <div>
@@ -14,6 +15,7 @@
       <TinhLaiComponent :rate="rate" v-if="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>      
       <TelegramComponent v-show="menu === 'telegram'"></TelegramComponent>
       <TrendsComponent v-show="menu === 'trends'"></TrendsComponent>
+      <TrendingMessageComponent v-show="menu === 'trendingmessage'"></TrendingMessageComponent>
     </div>
 
   </div>
@@ -43,10 +45,11 @@ import TinhLaiComponent from './_TinhLai'
 import RateComponent from './_Rate'
 import TelegramComponent from './_Telegram'
 import TrendsComponent from './_Trends'
+import TrendingMessageComponent from './_TrendingMessage'
 import Bittrex from '../provider/Bittrex'
 
 export default {
-  components: { MarketComponent, TinhLaiComponent, RateComponent, TelegramComponent, TrendsComponent },
+  components: { MarketComponent, TinhLaiComponent, RateComponent, TelegramComponent, TrendsComponent, TrendingMessageComponent },
   filters: {
     $coinname(value) {
       return value.split('-')[0]
