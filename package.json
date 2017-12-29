@@ -6,6 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "appconfig": {
+    "app": {
+      "apiUrl": "http://localhost:10009"
+    }
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

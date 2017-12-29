@@ -21,7 +21,7 @@
     <table class="table is-bordered is-striped is-narrow is-fullwidth" v-else>
       <tr>
         <th width="2"></th>                               
-        <th width="2">% biến động sau 30p</th>
+        <th width="2">% biến động</th>
         <th width="2">Last</th> 
         <th>Score</th>
       </tr>
@@ -32,7 +32,7 @@
             <div :class="{'has-text-success': vl.percent > 0, 'has-text-danger': vl.percent < 0}"><span class="fa" :class="{'fa-long-arrow-up': vl.percent > 0, 'fa-long-arrow-down': vl.percent < 0}"></span>&nbsp;{{vl.percent}} %</div>
           </td>
           <td>
-            <div class="tag"><b>{{vl.last[vl.market.toLowerCase()] | $number}}</b>&nbsp;<i class="has-text-primary">{{vl.market}}</i></div>
+            <div class="tag"><b>{{vl.last | $number}}</b>&nbsp;<i class="has-text-primary">{{vl.market}}</i></div>
           </td>
           <td>{{vl.score | $number}}</td>
         </tr>
@@ -43,7 +43,7 @@
                 <th v-if="type !== 'day'">{{d.time | $date('HH:mm')}}<small class="tag">{{d.time | $date}}</small></th>
                 <th v-else>{{d.time | $date}}</th>
                 <td>
-                  <div class="tag"><b>{{d.last[vl.market.toLowerCase()] | $number}}</b>&nbsp;<i class="has-text-primary">{{vl.market}}</i></div>
+                  <div class="tag"><b>{{d.last | $number}}</b>&nbsp;<i class="has-text-primary">{{vl.market}}</i></div>
                 </td>
                 <td><span v-show="d.percent !== 0" :class="{'has-text-success': d.percent > 0, 'has-text-danger': d.percent < 0}"><span class="fa" :class="{'fa-long-arrow-up': d.percent > 0, 'fa-long-arrow-down': d.percent < 0}"></span>&nbsp;{{d.percent | $number}} %</span></td>
               </tr>

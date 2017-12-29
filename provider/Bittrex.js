@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-const HOST = 'http://localhost:10009'
+import { appconfig } from '../package.json'
 
 export default {
   toETH(price, market, rate) {
@@ -13,17 +12,21 @@ export default {
     return price * (rate[`${market}-USDT`] || 1)
   },
   getPrice(type) {
-    return axios.get(`${HOST}/market`).then(resp => resp.data)
+    return axios.get(`${appconfig.app.apiUrl}/market`, {
+      params: {
+        type
+      }
+    }).then(resp => resp.data)
   },
   getRate(type) {
-    return axios.get(`${HOST}/rate`).then(resp => resp.data)
+    return axios.get(`${appconfig.app.apiUrl}/rate`).then(resp => resp.data)
   },
   getTrends(type) {
-    return axios.get(`${HOST}/trends`, {
+    return axios.get(`${appconfig.app.apiUrl}/trends`, {
       params: { type }
     }).then(resp => resp.data)
   },
   getTrendingMessage() {
-    return axios.get(`${HOST}/trending-message`).then(resp => resp.data)
+    return axios.get(`${appconfig.app.apiUrl}/trending-message`).then(resp => resp.data)
   }
 }

@@ -3,7 +3,7 @@
     <RateComponent v-if="rate" :rate="rate" :lastsync="lastsync" @changeVND="changeVND($event)"></RateComponent>
     <div class="tabs" v-if="rate">
       <ul>
-        <li :class="{'is-active': menu === 'tatca'}" @click="menu='tatca'"><a>Thống kê</a></li>        
+        <li :class="{'is-active': menu === 'tatca'}" @click="menu='tatca'"><a>Thống kê</a></li>
         <li :class="{'is-active': menu === 'tinhlai'}" @click="menu='tinhlai'"><a>Tính lãi</a></li>
         <li :class="{'is-active': menu === 'telegram'}" @click="menu='telegram'"><a>Newsfeed</a></li>
         <li :class="{'is-active': menu === 'trends'}" @click="menu='trends'"><a>Trendding</a></li>
@@ -21,18 +21,18 @@
   </div>
 </template>
 <style>
-.is-usdt {
-  font-size: 110% !important;
+.is-USDT {
+  color: #00d1b2;
 }
-.is-vnd {
+.is-VND {
   color: red !important;
   font-size: 110% !important;
 }
-.is-btc {
-  color: gray !important;
+.is-BTC {
+  color: #dc8b44;
 }
-.is-eth {
-  color: gray !important;
+.is-ETH {
+  color: #209cee;
 }
 .is-link {
   cursor: pointer;
@@ -59,7 +59,7 @@ export default {
     return {
       lastSync: undefined,
       rate: undefined,
-      menu: 'trends'
+      menu: 'tatca'
     }
   },
   computed: { },
