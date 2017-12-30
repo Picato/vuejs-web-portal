@@ -1,27 +1,38 @@
 <template>
   <div>
-    <table class="table is-bordered is-striped is-narrow is-fullwidth">
-      <tr>
-        <th>Case matcher</th>
-        <th>Market</th>
-        <th>Message</th>
-        <th>Time</th>
-      </tr>
-      <tr v-for="item in data" :key="item.key">
-        <td>{{item.matcher}}</td>
-        <td v-class="{'has-text-danger': item.type < 0, 'has-text-success': item.type > 0}">
-          <a :href="'https://bittrex.com/Market/Index?MarketName=' + item.key" :target="item.name">{{item.key}}</a><span class="tag">{{item.market}}</span>
-        </td>
-        <td>
-          <pre>{{item.msg}}</pre>
-        </td>
-        <td>{{item.time | $date("DD/MM/YYY HH:mm")}}</td>
-      </tr>
-    </table>    
+    <div class="control">
+      <label class="radio">
+        <input type="radio" name="type" value="min" v-model="type" @change="changeType()">
+        Last 30 minutes
+      </label>
+      <label class="radio">
+        <input type="radio" name="type" value="hour" v-model="type" @change="changeType()">
+        Last 5 hours
+      </label>
+      <label class="radio">
+        <input type="radio" name="type" value="day" v-model="type" @change="changeType()">
+        Last 5 days
+      </label>
+    </div>
+    <br/>
+    <div v-if="!data">
+      Loading...
+    </div>
+    <ul v-else>
+      <li v-for="item in data" :key="item.key">
+        <a :href="'https://bittrex.com/Market/Index?MarketName=' + item.key" :target="item.name">{{item.key}}&nbsp;&nbsp;&nbsp;<span class="tag"><b>{{item.time | $date('HH:mm')}}</b>&nbsp;<small>{{item.time | $date("DD/MM/YYYY")}}</small></span></a>
+        <ul>
+          <li v-for="(m, i) in item.msgs" :key="i" :class="{'has-text-success': m.type > 0, 'has-text-danger': m.type < 0}">&nbsp;-&nbsp;{{m.txt}}</li>
+        </ul>        
+      </li>    
+    </ul>
   </div>
 </template>
 <style scoped>
-
+.is-bullet {
+  list-style-type: disc;    
+  padding: 0px 0px 0px 24px;
+}
 </style>
 
 <script>
@@ -32,19 +43,25 @@ export default {
   filters: {},
   data() {
     return {
+      type: 'min',
       data: []
     }
   },
   computed: {},
   mounted() {
-    const self = this
-    Bittrex.getTrendingMessage().then(data => {
-      self.data = data
-    })
+    this.changeType()
   },
   watch: {
     $route({ name }) {}
   },
-  methods: {}
+  methods: {
+    changeType() {
+      const self = this
+      this.data = undefined
+      Bittrex.getTrendingMessage(this.type).then(data => {
+        self.data = data
+      })
+    }
+  }
 }
 </script> 

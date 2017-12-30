@@ -4,18 +4,16 @@
     <div class="tabs" v-if="rate">
       <ul>
         <li :class="{'is-active': menu === 'tatca'}" @click="menu='tatca'"><a>Thống kê</a></li>
-        <li :class="{'is-active': menu === 'tinhlai'}" @click="menu='tinhlai'"><a>Tính lãi</a></li>
-        <li :class="{'is-active': menu === 'telegram'}" @click="menu='telegram'"><a>Newsfeed</a></li>
-        <li :class="{'is-active': menu === 'trends'}" @click="menu='trends'"><a>Trendding</a></li>
         <li :class="{'is-active': menu === 'trendingmessage'}" @click="menu='trendingmessage'"><a>Trendding messsages</a></li>
+        <li :class="{'is-active': menu === 'telegram'}" @click="menu='telegram'"><a>Newsfeed</a></li>        
+        <li :class="{'is-active': menu === 'tinhlai'}" @click="menu='tinhlai'"><a>Tính lãi</a></li>        
       </ul>
     </div>
     <div>
-      <MarketComponent :rate="rate" v-if="rate" v-show="menu === 'tatca'"></MarketComponent>
-      <TinhLaiComponent :rate="rate" v-if="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>      
-      <TelegramComponent v-show="menu === 'telegram'"></TelegramComponent>
-      <TrendsComponent v-show="menu === 'trends'"></TrendsComponent>
+      <MarketComponent :rate="rate" v-if="rate" v-show="menu === 'tatca'"></MarketComponent>            
       <TrendingMessageComponent v-show="menu === 'trendingmessage'"></TrendingMessageComponent>
+      <TelegramComponent v-show="menu === 'telegram'"></TelegramComponent>
+      <TinhLaiComponent :rate="rate" v-if="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>      
     </div>
 
   </div>

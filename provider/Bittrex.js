@@ -26,7 +26,9 @@ export default {
       params: { type }
     }).then(resp => resp.data)
   },
-  getTrendingMessage() {
-    return axios.get(`${appconfig.app.apiUrl}/trending-message`).then(resp => resp.data)
+  getTrendingMessage(type) {
+    return axios.get(`${appconfig.app.apiUrl}/trending-message`, {
+      params: { type }
+    }).then(resp => resp.data)
   }
 }

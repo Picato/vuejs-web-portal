@@ -36,27 +36,34 @@
     <table class="table is-bordered is-striped is-narrow is-fullwidth" v-else>
       <tr>
         <th>Market-Coin</th>
-        <th @click="sortLast=sortBid=sortAsk=sortPercent=0; ++sortVolume;" class="is-cursor">Volume
+        <th @click="sortLast=sortBid=sortAsk=sortPercent=sortPrev=0; ++sortVolume;" class="is-cursor">Volume
           <span class="icon is-pulled-right">
-            <i class="fa" v-show="this.sortVolume % 3 !== 0" :class="{'fa-level-up': this.sortVolume % 3 === 2, 'fa-level-down': this.sortVolume % 3 === 1}"></i>
+            <i class="fa" v-show="this.sortVolume % 5 !== 0" :class="{'fa-level-up': [2, 4].includes(this.sortVolume % 5), 'fa-level-down': [1, 3].includes(this.sortVolume % 5)}"></i>&nbsp;
+            <span v-show="[1, 2].includes(this.sortVolume % 5)"></span>
+            <span v-show="[3, 4].includes(this.sortVolume % 5)">%</span>
           </span>
         </th>
-        <th @click="sortVolume=sortBid=sortAsk=sortPercent=0; ++sortLast;" class="is-cursor">Last price (High - Low)
+        <th @click="sortLast=sortVolume=sortAsk=sortPercent=sortBid=0; ++sortPrev;" class="is-cursor">Prev price
+          <span class="icon is-pulled-right">
+            <i class="fa" v-show="this.sortPrev % 3 !== 0" :class="{'fa-level-up': this.sortPrev % 3 === 2, 'fa-level-down': this.sortPrev % 3 === 1}"></i>
+          </span>
+        </th>
+        <th @click="sortVolume=sortBid=sortAsk=sortPercent=sortPrev=0; ++sortLast;" class="is-cursor">Last price (High - Low)
           <span class="icon is-pulled-right">
             <i class="fa" v-show="this.sortLast % 3 !== 0" :class="{'fa-level-up': this.sortLast % 3 === 2, 'fa-level-down': this.sortLast % 3 === 1}"></i>
           </span>
-        </th>
-        <th @click="sortLast=sortVolume=sortAsk=sortPercent=0; ++sortBid;" class="is-cursor">Bid price
+        </th>        
+        <th @click="sortLast=sortVolume=sortAsk=sortPercent=sortPrev=0; ++sortBid;" class="is-cursor">Bid price
           <span class="icon is-pulled-right">
             <i class="fa" v-show="this.sortBid % 3 !== 0" :class="{'fa-level-up': this.sortBid % 3 === 2, 'fa-level-down': this.sortBid % 3 === 1}"></i>
           </span>
         </th>
-        <th @click="sortLast=sortBid=sortVolume=sortPercent=0; ++sortAsk;" class="is-cursor">Ask price
+        <th @click="sortLast=sortBid=sortVolume=sortPercent=sortPrev=0; ++sortAsk;" class="is-cursor">Ask price
           <span class="icon is-pulled-right">
             <i class="fa" v-show="this.sortAsk % 3 !== 0" :class="{'fa-level-up': this.sortAsk % 3 === 2, 'fa-level-down': this.sortAsk % 3 === 1}"></i>
           </span>
         </th>
-        <th @click="sortLast=sortBid=sortVolume=sortAsk; ++sortPercent;" class="is-cursor">Changing in 30s
+        <th @click="sortLast=sortBid=sortVolume=sortAsk=sortPrev=0; ++sortPercent;" class="is-cursor">Changing rate
           <span class="icon is-pulled-right">
             <i class="fa" v-show="this.sortPercent % 3 !== 0" :class="{'fa-level-up': this.sortPercent % 3 === 2, 'fa-level-down': this.sortPercent % 3 === 1}"></i>
           </span>
@@ -67,6 +74,9 @@
         <td>
           <div class="tag"><b>{{vl.baseVolume | $number}}</b><span :class="'is-' + vl.market">&nbsp;{{vl.market}}</span></div>
           <div class="tag is-pulled-right" :class="{'has-text-danger': vl.baseVolumePercent < 0, 'has-text-success': vl.baseVolumePercent > 0}" v-if="vl.baseVolumePercent">{{vl.baseVolumePercent | $number}}%</div>
+        </td>
+        <td>          
+          <div class="tag"><b>{{vl.prev | $number}}</b>&nbsp;<i :class="'is-' + vl.market">{{vl.market}}</i></div>
         </td>
         <td>          
           <div class="tag"><b>{{vl.last | $number}}</b>&nbsp;<i :class="'is-' + vl.market">{{vl.market}}</i></div>
@@ -101,6 +111,7 @@ export default {
     return {
       sortPercent: 0,
       minsBefore: 5,
+      sortPrev: 0,
       sortVolume: 0,
       sortLast: 0,
       sortBid: 0,
@@ -129,8 +140,13 @@ export default {
       if (this.sortPercent % 3 === 1) data.sort((a, b) => b.percent - a.percent)
       else if (this.sortPercent % 3 === 2) data.sort((a, b) => a.percent - b.percent)
 
-      else if (this.sortVolume % 3 === 1) data.sort((a, b) => b.baseVolume - a.baseVolume)
-      else if (this.sortVolume % 3 === 2) data.sort((a, b) => a.baseVolume - b.baseVolume)
+      else if (this.sortPrev % 3 === 1) data.sort((a, b) => b.prev - a.prev)
+      else if (this.sortPrev % 3 === 2) data.sort((a, b) => a.prev - b.prev)
+
+      else if (this.sortVolume % 5 === 1) data.sort((a, b) => b.baseVolume - a.baseVolume)
+      else if (this.sortVolume % 5 === 2) data.sort((a, b) => a.baseVolume - b.baseVolume)
+      else if (this.sortVolume % 5 === 3) data.sort((a, b) => b.baseVolumePercent - a.baseVolumePercent)
+      else if (this.sortVolume % 5 === 4) data.sort((a, b) => a.baseVolumePercent - b.baseVolumePercent)
 
       else if (this.sortLast % 3 === 1) data.sort((a, b) => b.last - a.last)
       else if (this.sortLast % 3 === 2) data.sort((a, b) => a.last - b.last)
