@@ -14,5 +14,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "google-charts": "^1.0.0"
+  }
 }

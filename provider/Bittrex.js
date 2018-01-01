@@ -11,8 +11,15 @@ export default {
   toUSDT(price, market, rate) {
     return price * (rate[`${market}-USDT`] || 1)
   },
-  getPrice(type) {
-    return axios.get(`${appconfig.app.apiUrl}/market`, {
+  getPrice(type, coin) {
+    if (!coin) {
+      return axios.get(`${appconfig.app.apiUrl}/market`, {
+        params: {
+          type
+        }
+      }).then(resp => resp.data)
+    }
+    return axios.get(`${appconfig.app.apiUrl}/market/${coin}`, {
       params: {
         type
       }
