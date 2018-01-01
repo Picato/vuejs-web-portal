@@ -194,9 +194,9 @@ export default {
       const self = this
       Bittrex.getPrice(self.ftime, key).then(data => {
         self.detail = data.reverse().map(e => {
-          return [`${moment(e.time).format('HH:mm')}`, e.low, e.prev, e.last, e.high, `Time: ${moment(e.time).format('HH:mm DD/MM/YYYY')}
+          return [`${moment(e.time).format('HH:mm')}`, e.low, e.open, e.last, e.high, `Time: ${moment(e.time).format('HH:mm DD/MM/YYYY')}
 - Low: ${e.low}
-- Open: ${e.prev}
+- Open: ${e.open}
 - Close: ${e.last}
 - High: ${e.high}
 `]
