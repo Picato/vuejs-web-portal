@@ -2,8 +2,16 @@
   <div>
     <div class="control">
       <label class="radio">
-        <input type="radio" name="type" value="min" v-model="type" @change="changeType()">
-        Last 30 minutes
+        <input type="radio" name="type" value="min3" v-model="type" @change="changeType()">
+        Last 3 minutes
+      </label>
+      <label class="radio">
+        <input type="radio" name="type" value="min5" v-model="type" @change="changeType()">
+        Last 5 minutes
+      </label>
+      <label class="radio">
+        <input type="radio" name="type" value="min15" v-model="type" @change="changeType()">
+        Last 15 minutes
       </label>
       <label class="radio">
         <input type="radio" name="type" value="hour" v-model="type" @change="changeType()">
@@ -20,17 +28,15 @@
     </div>
     <ul v-else>
       <li v-for="item in data" :key="item.key">
-        <a :href="'https://bittrex.com/Market/Index?MarketName=' + item.key" :target="item.name">{{item.key}}&nbsp;&nbsp;&nbsp;<span class="tag"><b>{{item.time | $date('HH:mm')}}</b>&nbsp;<small>{{item.time | $date("DD/MM/YYYY")}}</small></span></a>
-        <ul>
-          <li v-for="(m, i) in item.msgs" :key="i" :class="{'has-text-success': m.type > 0, 'has-text-danger': m.type < 0}">&nbsp;-&nbsp;{{m.txt}}</li>
-        </ul>        
+        <a :href="'https://bittrex.com/Market/Index?MarketName=' + item.key" :target="item.key">{{item.key}}&nbsp;&nbsp;&nbsp;<span class="tag"><b>{{item.time | $date('HH:mm')}}</b>&nbsp;<small>{{item.time | $date("DD/MM/YYYY")}}</small></span></a>        
+        {{item.txt}}
       </li>    
     </ul>
   </div>
 </template>
 <style scoped>
 .is-bullet {
-  list-style-type: disc;    
+  list-style-type: disc;
   padding: 0px 0px 0px 24px;
 }
 </style>
@@ -43,8 +49,8 @@ export default {
   filters: {},
   data() {
     return {
-      type: 'min',
-      data: []
+      type: 'min3',
+      data: undefined
     }
   },
   computed: {},
