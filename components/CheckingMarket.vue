@@ -76,7 +76,7 @@ export default {
       Bittrex.getRate().then(data => {
         self.rate = Object.assign({}, self.rate, data)
         self.lastsync = new Date()
-        setTimeout(self.loadRate, 30000)
+        setTimeout(self.loadRate, 5000)
       })
     }
   }

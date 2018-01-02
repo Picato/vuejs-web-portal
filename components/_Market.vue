@@ -20,8 +20,10 @@
         <div class="column is-2">
           <div class="select is-fullwidth">
             <select v-model="ftime" @change="getTatca()">
-              <option value="sec">Thời gian 30 giây</option>
-              <option value="min">5 phút</option>
+              <option value="sec">Thời gian 5 giây</option>
+              <option value="min3">3 phút</option>
+              <option value="min5">5 phút</option>
+              <option value="min30">30 phút</option>
               <option value="hour">1 tiếng</option>
               <option value="day">1 ngày</option>
             </select>
@@ -210,7 +212,7 @@ export default {
       const self = this
       Bittrex.getPrice(self.ftime).then(data => {
         self.tmpData = self.convertData(data)
-        setTimeout(self.getTatca, 30000)
+        setTimeout(self.getTatca, 5000)
       })
     }
   }
