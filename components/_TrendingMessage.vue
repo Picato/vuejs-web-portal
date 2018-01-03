@@ -2,6 +2,10 @@
   <div>
     <div class="control">
       <label class="radio">
+        <input type="radio" name="type" value="min1" v-model="type" @change="changeType()">
+        Last 1 minutes
+      </label>
+      <label class="radio">
         <input type="radio" name="type" value="min3" v-model="type" @change="changeType()">
         Last 3 minutes
       </label>
@@ -26,12 +30,18 @@
     <div v-if="!data">
       Loading...
     </div>
-    <ul v-else>
-      <li v-for="item in data" :key="item.key">
-        <a :href="'https://bittrex.com/Market/Index?MarketName=' + item.key" :target="item.key">{{item.key}}&nbsp;&nbsp;&nbsp;<span class="tag"><b>{{item.time | $date('HH:mm')}}</b>&nbsp;<small>{{item.time | $date("DD/MM/YYYY")}}</small></span></a>        
-        {{item.txt}}
-      </li>    
-    </ul>
+    <table v-else class="table is-bordered is-striped is-narrow is-fullwidth">
+      <tr v-for="item in data" :key="item._id">
+        <td width="200">
+          <a :href="'https://bittrex.com/Market/Index?MarketName=' + item.key" :target="item.key">{{item.key}}&nbsp;&nbsp;&nbsp;<span class="tag"><b>{{item.time | $date('HH:mm')}}</b>&nbsp;<small>{{item.time | $date("DD/MM/YYYY")}}</small></span></a>        
+        </td>       
+        <td>{{item.txt}}</td>
+        <th><span class="tag" :class="{'is-info': item.style === 'VOLUME', 'is-primary': item.style === 'COIN'}">{{item.style}}</span></th>
+        <td>
+          {{item.updated_at | $date('HH:mm:SS')}} <span class="tag">{{item.updated_at | $date}}</span>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 <style scoped>
@@ -49,7 +59,7 @@ export default {
   filters: {},
   data() {
     return {
-      type: 'min3',
+      type: 'min1',
       data: undefined
     }
   },
@@ -63,9 +73,9 @@ export default {
   methods: {
     changeType() {
       const self = this
-      this.data = undefined
       Bittrex.getTrendingMessage(this.type).then(data => {
         self.data = data
+        setTimeout(self.changeType, 30000)
       })
     }
   }

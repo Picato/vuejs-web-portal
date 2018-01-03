@@ -21,6 +21,7 @@
           <div class="select is-fullwidth">
             <select v-model="ftime" @change="getTatca()">
               <option value="sec">Thời gian 5 giây</option>
+              <option value="min1">1 phút</option>
               <option value="min3">3 phút</option>
               <option value="min5">5 phút</option>
               <option value="min30">30 phút</option>
@@ -72,7 +73,7 @@
             <span class="icon is-pulled-right">
               <i class="fa" v-show="this.sortAsk % 3 !== 0" :class="{'fa-level-up': this.sortAsk % 3 === 2, 'fa-level-down': this.sortAsk % 3 === 1}"></i>
             </span>
-          </th>        
+          </th>
           <th @click="sortLast=sortBid=sortVolume=sortAsk=sortPrev=0; ++sortPercent;" class="is-cursor">Changing rate
             <span class="icon is-pulled-right">
               <i class="fa" v-show="this.sortPercent % 3 !== 0" :class="{'fa-level-up': this.sortPercent % 3 === 2, 'fa-level-down': this.sortPercent % 3 === 1}"></i>
@@ -82,7 +83,7 @@
         <tr v-for="(vl, k) in data" :key="k">
           <th>
             <a :href="'https://bittrex.com/Market/Index?MarketName=' + vl.market + '-' + vl.name" :target="vl.name">{{vl.name}}</a><span class="tag">{{vl.market}}</span>
-            <a @click="showDetail(vl.key)" v-show="ftime !== 'sec'"><span class="fa fa-area-chart is-pulled-right"></span></a>
+            <a @click="showDetail(vl.key)" v-show="!['sec', 'min1'].includes(ftime)"><span class="fa fa-area-chart is-pulled-right"></span></a>
           </th>
           <td>
             <div class="tag"><b>{{vl.baseVolume | $number}}</b><span :class="'is-' + vl.market">&nbsp;{{vl.market}}</span></div>
@@ -210,9 +211,10 @@ export default {
     },
     getTatca() {
       const self = this
+      const time = this.ftime === 'sec' ? 5000 : 30000
       Bittrex.getPrice(self.ftime).then(data => {
         self.tmpData = self.convertData(data)
-        setTimeout(self.getTatca, 5000)
+        setTimeout(self.getTatca, time)
       })
     }
   }
