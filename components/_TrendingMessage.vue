@@ -2,28 +2,28 @@
   <div>
     <div class="control">
       <label class="radio">
-        <input type="radio" name="type" value="min1" v-model="type" @change="changeType()">
+        <input type="radio" name="type" value="HandlerMin1" v-model="type" @change="changeType()">
         Last 1 minutes
       </label>
       <label class="radio">
-        <input type="radio" name="type" value="min3" v-model="type" @change="changeType()">
+        <input type="radio" name="type" value="HandlerMin3" v-model="type" @change="changeType()">
         Last 3 minutes
       </label>
       <label class="radio">
-        <input type="radio" name="type" value="min5" v-model="type" @change="changeType()">
+        <input type="radio" name="type" value="HandlerMin5" v-model="type" @change="changeType()">
         Last 5 minutes
       </label>
       <label class="radio">
-        <input type="radio" name="type" value="min15" v-model="type" @change="changeType()">
-        Last 15 minutes
+        <input type="radio" name="type" value="HandlerMin30" v-model="type" @change="changeType()">
+        Last 30 minutes
       </label>
       <label class="radio">
-        <input type="radio" name="type" value="hour" v-model="type" @change="changeType()">
-        Last 5 hours
+        <input type="radio" name="type" value="HandlerHour1" v-model="type" @change="changeType()">
+        Last 1 hours
       </label>
       <label class="radio">
-        <input type="radio" name="type" value="day" v-model="type" @change="changeType()">
-        Last 5 days
+        <input type="radio" name="type" value="HandlerDay1" v-model="type" @change="changeType()">
+        Last 1 days
       </label>
     </div>
     <br/>
@@ -59,7 +59,7 @@ export default {
   filters: {},
   data() {
     return {
-      type: 'min1',
+      type: 'HandlerMin1',
       data: undefined
     }
   },
