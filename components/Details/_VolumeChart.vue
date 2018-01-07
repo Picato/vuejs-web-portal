@@ -51,7 +51,7 @@ export default {
           width: '100%',
           legend: { position: 'none' },
           // legend: 'none',
-          chartArea: {left: 120, top: 30, width: '100%', height: '85%'},
+          chartArea: {left: 150, top: 30, bottom: 60, width: '100%', height: '100%'},
           tooltip: { isHtml: false },
           explorer: {
             axis: 'horizontal',

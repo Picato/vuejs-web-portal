@@ -23,27 +23,27 @@
         <li style="position: absolute; right: 0px; margin-right: 50px;">
           <div class="control">
             <label class="radio">
-              <input type="radio" value="HandlerMin1" v-model="time">
+              <input type="radio" value="HandlerMin1" v-model="ftime">
               Last 1 minutes
             </label>
             <label class="radio">
-              <input type="radio" value="HandlerMin3" v-model="time">
+              <input type="radio" value="HandlerMin3" v-model="ftime">
               Last 3 minutes
             </label>
             <label class="radio">
-              <input type="radio" value="HandlerMin5" v-model="time">
+              <input type="radio" value="HandlerMin5" v-model="ftime">
               Last 5 minutes
             </label>
             <label class="radio">
-              <input type="radio" value="HandlerMin30" v-model="time">
+              <input type="radio" value="HandlerMin30" v-model="ftime">
               Last 30 minutes
             </label>
             <label class="radio">
-              <input type="radio" value="HandlerHour1" v-model="time">
+              <input type="radio" value="HandlerHour1" v-model="ftime">
               Last 1 hours
             </label>
             <label class="radio">
-              <input type="radio" value="HandlerDay1" v-model="time">
+              <input type="radio" value="HandlerDay1" v-model="ftime">
               Last 1 days
             </label>
           </div>
@@ -51,9 +51,9 @@
       </ul>
     </div>
     <div>      
-      <VolumeChart v-if="tab === 'volume'" :market="detail.key" :time="time"></VolumeChart>
-      <CandleChart v-if="tab === 'candle'" :market="detail.key" :time="time"></CandleChart>
-      <TrendsMessage v-if="tab === 'message'" :market="detail.key" :time="time"></TrendsMessage>
+      <VolumeChart v-if="tab === 'volume'" :market="detail.key" :time="ftime"></VolumeChart>
+      <CandleChart v-if="tab === 'candle'" :market="detail.key" :time="ftime"></CandleChart>
+      <TrendsMessage v-if="tab === 'message'" :market="detail.key" :time="ftime"></TrendsMessage>
     </div>
   </div>
 </template>
@@ -65,12 +65,12 @@ import TrendsMessage from './_TrendsMessage'
 import Bittrex from '../../provider/Bittrex'
 
 export default {
-  props: ['detail'],
+  props: ['detail', 'time'],
   filters: { },
   components: { VolumeChart, CandleChart, TrendsMessage },
   data() {
     return {
-      time: 'HandlerMin30',
+      ftime: undefined,
       tab: 'candle'
     }
   },
@@ -78,6 +78,7 @@ export default {
   computed: { },
   mounted() {
     const self = this
+    this.ftime = this.time
     setInterval(() => {
       self.updateLastPrice.apply(self)
     }, 5000)

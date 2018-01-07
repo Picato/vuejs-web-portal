@@ -143,7 +143,7 @@ export default {
           height: this.recordsPerPage * 600 / 20,
           legend: { position: 'none' },
           // legend: 'none',
-          chartArea: {left: 100, top: 30, right: 100, width: '100%', height: '80%'},
+          chartArea: {left: 150, top: 30, bottom: 60, right: 100, width: '100%', height: '100%'},
           tooltip: { isHtml: false },
           colors: [ color ],
           hAxis: {
