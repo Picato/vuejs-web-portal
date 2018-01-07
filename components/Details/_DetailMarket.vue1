@@ -1,0 +1,56 @@
+<template>
+  <div v-if="detail">
+    <table class="table">
+      <tr>
+        <th>Last</th>
+        <td>
+          <b>{{detail.last | $number}}</b>          
+        </td>
+      </tr>
+      <tr>
+        <th>Last update</th>
+        <td>
+          {{detail.time | $date('hh:mm:ss')}}
+          <span class="tag is-pulled-right">{{detail.time | $date('DD/MM/YYYY')}}</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</template>
+
+<script>
+import Bittrex from '../../provider/Bittrex'
+
+export default {
+  props: ['market', 'time'],
+  filters: { },
+  data() {
+    return {
+      detail: undefined
+    }
+  },
+  watch: {
+    market(value) {
+      if (value) {
+        this.loadData()
+      }
+    },
+    time(value) {
+      if (value) {
+        this.loadData()
+      }
+    }
+  },
+  computed: { },
+  mounted() {
+    this.loadData()
+  },
+  methods: {
+    loadData() {
+      Bittrex.getPriceDetail('HandlerMin1', this.market).then(data => {
+        this.detail = data
+      })
+    }
+  }
+}
+</script> 

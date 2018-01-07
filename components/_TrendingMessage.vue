@@ -26,14 +26,11 @@
         Last 1 days
       </label>
     </div>
-    <br/>
-    <div v-if="!data">
-      Loading...
-    </div>
-    <table v-else class="table is-bordered is-striped is-narrow is-fullwidth">
+    <hr/>
+    <table class="table is-bordered is-striped is-narrow is-fullwidth">
       <tr v-for="item in data" :key="item._id">
         <td width="200">
-          <a :href="'https://bittrex.com/Market/Index?MarketName=' + item.key" :target="item.key">{{item.key}}&nbsp;&nbsp;&nbsp;<span class="tag"><b>{{item.time | $date('HH:mm')}}</b>&nbsp;<small>{{item.time | $date("DD/MM/YYYY")}}</small></span></a>        
+          <a :href="'https://bittrex.com/Market/Index?MarketName=' + item.key" :target="item.key">{{item.key}}</a>        
         </td>       
         <td>{{item.txt}}</td>
         <th><span class="tag" :class="{'is-info': item.style === 'VOLUME', 'is-primary': item.style === 'COIN'}">{{item.style}}</span></th>
@@ -73,7 +70,7 @@ export default {
   methods: {
     changeType() {
       const self = this
-      Bittrex.getTrendingMessage(this.type).then(data => {
+      Bittrex.getTrendingMessage(undefined, this.type).then(data => {
         self.data = data
         setTimeout(self.changeType, 30000)
       })

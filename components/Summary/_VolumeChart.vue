@@ -1,0 +1,171 @@
+<template>
+  <div>
+    <div class="modal is-active" v-if="detail">
+      <div class="modal-background" @click="detail=undefined"></div>
+      <div class="modal-card" style="width: 80%; height: 90%;">
+        <header class="modal-card-head">
+          <h1 class="title">
+            <a :href="'https://bittrex.com/Market/Index?MarketName=' + detail.key" :target="detail.key">{{detail.key}}</a>
+            <small class="subtitle">{{detail.last | $number}}
+              <small :class="{'has-text-success': detail.num > 0, 'has-text-danger': detail.num < 0}">{{detail.num > 0 ? '+' : ''}}{{detail.num | $number}}</small>
+            </small>            
+            <small class="subtitle" style="position: absolute; right: 16px; top: 20px;">{{detail.time | $date('HH:mm DD/MM/YYYY')}}</small>
+          </h1>          
+        </header>
+        <section class="modal-card-body">
+          <Detail :detail="detail" :time="time"></Detail>
+        </section>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <div class="chart"></div>
+      </div>
+      <div class="column">        
+        <div class="columns">
+          <div class="column is-4">
+            <div class="control">
+              <label class="label">Page</label>
+              <input class="input" type="number" placeholder="Page" v-model.number.lazy="page">
+            </div>
+          </div>
+          <div class="column">
+            <div class="control">
+              <label class="label">Records per page</label>
+              <div class="select is-fullwidth">
+                <select v-model="recordsPerPage">
+                  <option :value="20">20 Records</option>
+                  <option :value="50">50 Records</option>
+                  <option :value="100">100 Records</option>
+                  <option :value="500">500 Records</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="control column">
+            <label class="radio">
+              <input type="radio" :value="-1" v-model.number="sort">
+              Tăng
+            </label>
+            <label class="radio">
+              <input type="radio" :value="1" v-model.number="sort">
+              Giảm
+            </label>
+          </div>
+          <div class="column">
+            <div class="select is-fullwidth">
+              <select v-model="fmarket">
+                <option value="BTC">BTC</option>
+                <option value="ETH">ETH</option>
+                <option value="USDT">USDT</option>
+              </select>
+            </div>
+          </div>
+        </div>                
+      </div>
+    </div>      
+  </div>
+</template>
+
+<script>
+import { GoogleCharts } from 'google-charts'
+import Bittrex from '../../provider/Bittrex'
+import Detail from '../Details/_Detail'
+
+export default {
+  components: { Detail },
+  props: ['title', 'time', 'top', 'xtitle', 'format', 'refresh'],
+  filters: { },
+  data() {
+    return {
+      detail: undefined,
+      fmarket: 'BTC',
+      sort: -1,
+      recordsPerPage: 20,
+      page: 1,
+      data: undefined
+    }
+  },
+  computed: { },
+  mounted() {
+    const self = this
+    GoogleCharts.load(() => {
+      self.chart = new GoogleCharts.api.visualization.BarChart(this.$el.querySelector('.chart'))
+      self.loadData()
+      GoogleCharts.api.visualization.events.addListener(this.chart, 'select', e => {
+        if (self.chart.getSelection()[0]) {
+          let vl = self.data[self.chart.getSelection()[0].row]
+          vl.tab = 'detail'
+          self.detail = vl
+        }
+      })
+    })
+  },
+  watch: {
+    $route({ name }) {},
+    refresh() {
+      this.loadData()
+    },
+    fmarket(value) {
+      this.loadData()
+    },
+    time(value) {
+      this.loadData()
+    },
+    sort(value) {
+      this.loadData()
+    },
+    page(value) {
+      this.loadData()
+    },
+    recordsPerPage(value) {
+      this.loadData()
+    },
+    data(value) {
+      if (value) {
+        const color = this.sort < 0 ? '#23d160' : '#ff3860'
+        this.chart.draw(GoogleCharts.api.visualization.arrayToDataTable([
+          [
+            {label: 'Market', type: 'string'},
+            {label: 'Value', type: 'number'},
+            {type: 'string', role: 'annotation'},
+            {type: 'string', role: 'tooltip', 'p': {'html': true}}
+          ],
+          ...value.map(e => {
+            return [e.key, e[this.top], `${Bittrex.formatNumber(e[this.top])}${this.format === 'percent' ? '%' : ''}`, `Time: ${e.time}
+  - ${this.xtitle}: ${Bittrex.formatNumber(e[this.top])}`]
+          })
+        ], false), {
+          title: this.title,
+          width: '100%',
+          height: this.recordsPerPage * 600 / 20,
+          legend: { position: 'none' },
+          // legend: 'none',
+          chartArea: {left: 100, top: 30, right: 100, width: '100%', height: '80%'},
+          tooltip: { isHtml: false },
+          colors: [ color ],
+          hAxis: {
+            title: this.xtitle
+          }
+        })
+      }
+    }
+  },
+  methods: {
+    loadData() {
+      const self = this
+      Bittrex.getPrice(self.time, undefined, {
+        market: self.fmarket,
+        top: self.top,
+        sort: self.sort,
+        page: self.page,
+        recordsPerPage: self.recordsPerPage
+      }).then(data => {
+        self.data = data
+      })
+    }
+  }
+}
+</script> 

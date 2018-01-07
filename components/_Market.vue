@@ -1,15 +1,8 @@
 <template>
   <div>
-    <div class="modal" :class="{'is-active': detail}">
-      <div class="modal-background"></div>
-      <div class="modal-content">
-        <CandleChart :data="detail"></CandleChart>
-      </div>
-      <button class="modal-close is-large" aria-label="close" @click="detail = undefined"></button>
-    </div>
-    <div v-if="data">
+     <div v-if="data">
       <div class="columns">
-        <div class="column">
+        <div class="column is-2">
           <div class="control has-icons-left">
             <input class="input" type="text" placeholder="Coin name" v-model="fcoinname">
             <span class="icon is-small is-left">
@@ -17,20 +10,7 @@
             </span>
           </div>
         </div>
-        <div class="column is-2">
-          <div class="select is-fullwidth">
-            <select v-model="ftime" @change="getTatca()">
-              <option value="sec">Thời gian 5 giây</option>
-              <option value="min1">1 phút</option>
-              <option value="min3">3 phút</option>
-              <option value="min5">5 phút</option>
-              <option value="min30">30 phút</option>
-              <option value="hour">1 tiếng</option>
-              <option value="day">1 ngày</option>
-            </select>
-          </div>
-        </div>
-        <div class="column is-2">
+        <div class="column is-1">
           <div class="select is-fullwidth">
             <select v-model="fmarket">
               <option :value="undefined">Market</option>
@@ -40,11 +20,41 @@
             </select>
           </div>
         </div>
+        <div class="column">
+          <div class="control">
+            <label class="radio">
+              <input type="radio" value="RawHandler" v-model="ftime" @change="getTatca()">
+              Last 5s
+            </label>
+            <label class="radio">
+              <input type="radio" value="HandlerMin1" v-model="ftime" @change="getTatca()">
+              Last 1 minutes
+            </label>
+            <label class="radio">
+              <input type="radio" value="HandlerMin3" v-model="ftime" @change="getTatca()">
+              Last 3 minutes
+            </label>
+            <label class="radio">
+              <input type="radio" value="HandlerMin5" v-model="ftime" @change="getTatca()">
+              Last 5 minutes
+            </label>
+            <label class="radio">
+              <input type="radio" value="HandlerMin30" v-model="ftime" @change="getTatca()">
+              Last 30 minutes
+            </label>
+            <label class="radio">
+              <input type="radio" value="HandlerHour1" v-model="ftime" @change="getTatca()">
+              Last 1 hours
+            </label>
+            <label class="radio">
+              <input type="radio" value="HandlerDay1" v-model="ftime" @change="getTatca()">
+              Last 1 days
+            </label>
+          </div>
+        </div>        
       </div>
-      <div v-if="data.length === 0">
-        Loading...
-      </div>
-      <table class="table is-bordered is-striped is-narrow is-fullwidth" v-else>
+      <hr/>
+      <table class="table is-bordered is-striped is-narrow is-fullwidth">
         <tr>
           <th>Market-Coin</th>
           <th @click="sortLast=sortBid=sortAsk=sortPercent=sortPrev=0; ++sortVolume;" class="is-cursor">Volume
@@ -64,12 +74,12 @@
               <i class="fa" v-show="this.sortLast % 3 !== 0" :class="{'fa-level-up': this.sortLast % 3 === 2, 'fa-level-down': this.sortLast % 3 === 1}"></i>
             </span>
           </th>
-          <th @click="sortLast=sortVolume=sortAsk=sortPercent=sortPrev=0; ++sortBid;" class="is-cursor" v-if="ftime === 'sec'">Bid price
+          <th @click="sortLast=sortVolume=sortAsk=sortPercent=sortPrev=0; ++sortBid;" class="is-cursor" v-if="ftime === 'RawHandler'">Bid price
             <span class="icon is-pulled-right">
               <i class="fa" v-show="this.sortBid % 3 !== 0" :class="{'fa-level-up': this.sortBid % 3 === 2, 'fa-level-down': this.sortBid % 3 === 1}"></i>
             </span>
           </th>
-          <th @click="sortLast=sortBid=sortVolume=sortPercent=sortPrev=0; ++sortAsk;" class="is-cursor" v-if="ftime === 'sec'">Ask price
+          <th @click="sortLast=sortBid=sortVolume=sortPercent=sortPrev=0; ++sortAsk;" class="is-cursor" v-if="ftime === 'RawHandler'">Ask price
             <span class="icon is-pulled-right">
               <i class="fa" v-show="this.sortAsk % 3 !== 0" :class="{'fa-level-up': this.sortAsk % 3 === 2, 'fa-level-down': this.sortAsk % 3 === 1}"></i>
             </span>
@@ -82,8 +92,7 @@
         </tr>
         <tr v-for="(vl, k) in data" :key="k">
           <th>
-            <a :href="'https://bittrex.com/Market/Index?MarketName=' + vl.market + '-' + vl.name" :target="vl.name">{{vl.name}}</a><span class="tag">{{vl.market}}</span>
-            <a @click="showDetail(vl.key)" v-show="!['sec', 'min1'].includes(ftime)"><span class="fa fa-area-chart is-pulled-right"></span></a>
+            <a :href="'https://bittrex.com/Market/Index?MarketName=' + vl.market + '-' + vl.name" :target="vl.name">{{vl.name}}</a><span class="tag">{{vl.market}}</span>            
           </th>
           <td>
             <div class="tag"><b>{{vl.baseVolume | $number}}</b><span :class="'is-' + vl.market">&nbsp;{{vl.market}}</span></div>
@@ -96,10 +105,10 @@
             <div class="tag"><b>{{vl.last | $number}}</b>&nbsp;<i :class="'is-' + vl.market">{{vl.market}}</i></div>
             <div class="tag" v-if="vl.low !== undefined && vl.high !== undefined">( {{vl.low | $number}} - {{vl.high | $number}} )</div>          
           </td>
-          <td v-if="ftime === 'sec'">          
+          <td v-if="ftime === 'RawHandler'">          
             <div class="tag"><b>{{vl.bid | $number}}</b>&nbsp;<i :class="'is-' + vl.market">{{vl.market}}</i></div>
           </td>
-          <td v-if="ftime === 'sec'">
+          <td v-if="ftime === 'RawHandler'">
             <div class="tag"><b>{{vl.ask | $number}}</b>&nbsp;<i :class="'is-' + vl.market">{{vl.market}}</i></div>          
           </td>        
           <td>
@@ -122,12 +131,10 @@
 <script>
 import * as _ from 'lodash'
 import Bittrex from '../provider/Bittrex'
-import CandleChart from './_CandleChart'
-import moment from 'moment'
 
 export default {
   props: ['rate'],
-  components: { CandleChart },
+  components: { },
   filters: {
     $coinname(value) {
       return value.split('-')[0]
@@ -135,7 +142,6 @@ export default {
   },
   data() {
     return {
-      detail: undefined,
       sortPercent: 0,
       minsBefore: 5,
       sortPrev: 0,
@@ -143,7 +149,7 @@ export default {
       sortLast: 0,
       sortBid: 0,
       sortAsk: 0,
-      ftime: 'sec',
+      ftime: 'RawHandler',
       fmarket: undefined,
       fcoinname: undefined,
       tmpData: [],
@@ -193,26 +199,13 @@ export default {
     $route({ name }) {}
   },
   methods: {
-    showDetail(key) {
-      const self = this
-      Bittrex.getPrice(self.ftime, key).then(data => {
-        self.detail = data.reverse().map(e => {
-          return [`${moment(e.time).format('HH:mm')}`, e.low, e.open, e.last, e.high, `Time: ${moment(e.time).format('HH:mm DD/MM/YYYY')}
-- Low: ${e.low}
-- Open: ${e.open}
-- Close: ${e.last}
-- High: ${e.high}
-`]
-        })
-      })
-    },
     convertData(data) {
       return data
     },
     getTatca() {
       const self = this
-      const time = this.ftime === 'sec' ? 5000 : 30000
-      Bittrex.getPrice(self.ftime).then(data => {
+      const time = this.ftime === 'RawHandler' ? 5000 : 30000
+      Bittrex.getPrice(self.ftime, undefined, {recordsPerPage: 0}).then(data => {
         self.tmpData = self.convertData(data)
         setTimeout(self.getTatca, time)
       })
