@@ -53,7 +53,7 @@
     </div>
     <div class="columns">
       <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolume" :sort="-1" title="[VOL] Top giá trị vốn hóa" xtitle="Volume"></VolumeChartComponent>
+        <VolumePieChartComponent :refresh="refresh" :time="type" top="baseVolume" :sort="-1" title="[VOL] Top giá trị vốn hóa" xtitle="Volume"></VolumePieChartComponent>
       </div>
     </div>
     <div class="columns">
@@ -66,11 +66,12 @@
 
 <script>
 import VolumeChartComponent from './_VolumeChart'
+import VolumePieChartComponent from './_VolumePieChart'
 import Bittrex from '../../provider/Bittrex'
 
 export default {
   props: ['rate', 'lastsync'],
-  components: { VolumeChartComponent },
+  components: { VolumeChartComponent, VolumePieChartComponent },
   filters: { },
   data() {
     return {

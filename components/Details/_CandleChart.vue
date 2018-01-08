@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="chart" style="height: 500px"></div>
+    <div class="chart" style="height: 400px"></div>
   </div>
 </template>
 
@@ -71,7 +71,7 @@ export default {
             }
           },
           vAxis: {
-            title: `Last price ${this.market.split('-')[0]}`
+            title: `Last price (${this.market.split('-')[0]})`
           },
           candlestick: {
             fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red

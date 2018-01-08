@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="chart" style="height: 500px"></div>
+    <div class="chart" style="height: 400px"></div>
   </div>
 </template>
 
@@ -76,7 +76,7 @@ export default {
             }
           },
           vAxis: {
-            title: 'Volume'
+            title: `Volume (${this.market.split('-')[0]})`
           }
         })
       }

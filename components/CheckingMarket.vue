@@ -13,6 +13,12 @@
             <span>Chart summary</span>
           </a>
         </li>
+        <li :class="{'is-active': menu === 'chartVolumeSummary'}" @click="menu='chartVolumeSummary'">
+          <a>
+            <span class="icon is-small"><i class="fa fa-line-chart"></i></span>
+            <span>Volume summary</span>
+          </a>
+        </li>        
         <li :class="{'is-active': menu === 'trendingmessage'}" @click="menu='trendingmessage'">
           <a>
             <span class="icon is-small"><i class="fa fa-commenting-o"></i></span>
@@ -36,6 +42,7 @@
     <div>
       <MarketComponent :rate="rate" v-if="rate && menu === 'tatca'"></MarketComponent>
       <ChartSummaryComponent v-if="menu === 'chart'"></ChartSummaryComponent>
+      <VolumeSummaryComponent v-if="menu === 'chartVolumeSummary'"></VolumeSummaryComponent>
       <TrendingMessageComponent v-if="menu === 'trendingmessage'"></TrendingMessageComponent>
       <TelegramComponent v-show="menu === 'telegram'"></TelegramComponent>
       <TinhLaiComponent :rate="rate" v-if="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>            
@@ -69,10 +76,11 @@ import RateComponent from './_Rate'
 import TelegramComponent from './_Telegram'
 import TrendingMessageComponent from './_TrendingMessage'
 import ChartSummaryComponent from './Summary/_ChartSummary'
+import VolumeSummaryComponent from './Summary/_VolumePieChart'
 import Bittrex from '../provider/Bittrex'
 
 export default {
-  components: { MarketComponent, TinhLaiComponent, RateComponent, TelegramComponent, TrendingMessageComponent, ChartSummaryComponent },
+  components: { MarketComponent, TinhLaiComponent, RateComponent, TelegramComponent, TrendingMessageComponent, ChartSummaryComponent, VolumeSummaryComponent },
   filters: {
     $coinname(value) {
       return value.split('-')[0]

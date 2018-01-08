@@ -4,14 +4,49 @@
       <div class="column">
         <div class="chart"></div>
       </div>
-      <div class="column">
-        <div class="select is-fullwidth">
-          <select v-model="fmarket">
-            <option value="BTC">BTC</option>
-            <option value="ETH">ETH</option>
-            <option value="USDT">USDT</option>
-          </select>
+      <div class="column">        
+        <div class="columns">
+          <div class="column is-4">
+            <div class="control">
+              <label class="label">Page</label>
+              <input class="input" type="number" placeholder="Page" v-model.number.lazy="page">
+            </div>
+          </div>
+          <div class="column">
+            <div class="control">
+              <label class="label">Records per page</label>
+              <div class="select is-fullwidth">
+                <select v-model="recordsPerPage">
+                  <option :value="10">10 Records</option>
+                  <option :value="20">20 Records</option>
+                  <option :value="50">50 Records</option>
+                  <option :value="100">100 Records</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="columns">
+          <div class="control column">
+            <label class="radio">
+              <input type="radio" :value="-1" v-model.number="sort">
+              Tăng
+            </label>
+            <label class="radio">
+              <input type="radio" :value="1" v-model.number="sort">
+              Giảm
+            </label>
+          </div>
+          <div class="column">
+            <div class="select is-fullwidth">
+              <select v-model="fmarket">
+                <option value="BTC">BTC</option>
+                <option value="ETH">ETH</option>
+                <option value="USDT">USDT</option>
+              </select>
+            </div>
+          </div>
+        </div>                
       </div>
     </div>      
   </div>
@@ -22,13 +57,16 @@ import { GoogleCharts } from 'google-charts'
 import Bittrex from '../../provider/Bittrex'
 
 export default {
-  props: ['title', 'time', 'top', 'xtitle', 'format', 'refresh'],
   filters: { },
   data() {
     return {
       title: '[VOL] Top giá trị vốn hóa',
+      top: 'baseVolume',
+      xtitle: 'Volume',
+      refresh: 5000,
       fmarket: 'BTC',
-      recordsPerPage: 0,
+      sort: -1,
+      recordsPerPage: 10,
       page: 1,
       data: undefined
     }
@@ -37,7 +75,7 @@ export default {
   mounted() {
     const self = this
     GoogleCharts.load(() => {
-      self.chart = new GoogleCharts.api.visualization.BarChart(this.$el.querySelector('.chart'))
+      self.chart = new GoogleCharts.api.visualization.PieChart(this.$el.querySelector('.chart'))
       self.loadData()
       GoogleCharts.api.visualization.events.addListener(this.chart, 'select', e => {
         if (self.chart.getSelection()[0]) {
@@ -69,7 +107,7 @@ export default {
     },
     data(value) {
       if (value) {
-        const color = this.sort < 0 ? '#23d160' : '#ff3860'
+        // const color = this.sort < 0 ? '#23d160' : '#ff3860'
         this.chart.draw(GoogleCharts.api.visualization.arrayToDataTable([
           [
             {label: 'Market', type: 'string'},
@@ -84,12 +122,13 @@ export default {
         ], false), {
           title: this.title,
           width: '100%',
-          height: this.recordsPerPage * 600 / 20,
+          height: 500,
           legend: { position: 'none' },
           // legend: 'none',
           chartArea: {left: 150, top: 30, bottom: 60, right: 100, width: '100%', height: '100%'},
+          pieSliceText: 'label',
           tooltip: { isHtml: false },
-          colors: [ color ],
+          // colors: [ color ],
           hAxis: {
             title: this.xtitle
           }
