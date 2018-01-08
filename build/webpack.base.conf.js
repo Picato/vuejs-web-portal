@@ -42,7 +42,7 @@ module.exports = {
     },
     modules: [
       resolve('node_modules'),
-      resolve('src/zones/coin/node_modules')
+      resolve('src/zones/*/node_modules')
     ]
   },
   module: {

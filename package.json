@@ -12,10 +12,17 @@
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
+  "appconfig": {
+    "pj": "5a3e70500427fd1012102994",
+    "service": {
+      "auth": "http://service.clipvnet.com/oauth"
+    }
+  },
   "dependencies": {
     "axios": "^0.17.1",
     "bulma": "^0.6.1",
     "font-awesome": "^4.7.0",
+    "google-charts": "^1.0.0",
     "lodash": "^4.17.4",
     "moment": "^2.20.1",
     "vue": "^2.5.2",
