@@ -6,13 +6,16 @@
       <td>1 <b class="is-BTC">BTC</b> = <b>{{rate['BTC-ETH'] | $number}}</b> <b class="is-ETH">ETH</b></td>            
       <td>1 <b class="is-USDT">USDT</b> = <input type="number" v-model.number="vndRate" /> <b class="is-VND">VND</b></td>
       <td width="150"><span class="fa fa-clock-o"></span>&nbsp;{{ lastsync | $date('HH:mm:ss') }}</td>
+      <td width="80"><a @click="logout()">Logout!</a></td>
     </tr>
   </table>
 </template>
 
 <script>
+import MainEvent from '@/providers/main-event'
 
 export default {
+  auth: true,
   props: ['rate', 'lastsync'],
   filters: { },
   data() {
@@ -28,6 +31,10 @@ export default {
       this.$emit('changeVND', value)
     }
   },
-  methods: { }
+  methods: {
+    logout() {
+      MainEvent.$emit('logout')
+    }
+  }
 }
 </script> 
