@@ -3,7 +3,7 @@
     <div class="columns">
       <div class="column">
         <div class="control">
-          <label class="label">Market
+          <label class="label">Market123
           <label class="radio is-pulled-right">
             <input type="radio" :value="1" v-model.number="sort">
             Giảm
@@ -55,7 +55,7 @@ import { GoogleCharts } from 'google-charts'
 import Bittrex from '../../provider/Bittrex'
 
 export default {
-  props: ['title', 'time', 'top', 'xtitle', 'format', 'refresh'],
+  props: ['title', 'time', 'top', 'last', 'prev', 'xtitle', 'format', 'refresh'],
   filters: { },
   data() {
     return {
@@ -102,17 +102,23 @@ export default {
     },
     data(value) {
       if (value) {
-        const color = this.sort < 0 ? '#23d160' : '#ff3860'
+        const color = ['#23d160', '#ff3860']
         this.chart.draw(GoogleCharts.api.visualization.arrayToDataTable([
           [
             {label: 'Market', type: 'string'},
-            {label: 'Value', type: 'number'},
-            {type: 'string', role: 'annotation'},
+            {label: 'Last', type: 'number'},
+            {label: 'Prev', type: 'number'},
             {type: 'string', role: 'tooltip', 'p': {'html': true}}
           ],
           ...value.map(e => {
-            return [e.key, e[this.top], `${Bittrex.formatNumber(e[this.top])}${this.format === 'percent' ? '%' : ''}`, `Time: ${e.time}
-  - ${this.xtitle}: ${Bittrex.formatNumber(e[this.top])}`]
+            console.log(e[this.last], e[this.prev])
+            return [
+              e.key,
+              e[this.last],
+              e[this.prev],
+              `Time: ${e.time}
+  - ${this.xtitle}: ${Bittrex.formatNumber(e[this.top])}`
+            ]
           })
         ], false), {
           title: this.title,
@@ -122,7 +128,7 @@ export default {
           // legend: 'none',
           chartArea: {left: 150, top: 30, bottom: 60, right: 100, width: '100%', height: '100%'},
           tooltip: { isHtml: false },
-          colors: [ color ],
+          colors: color,
           hAxis: {
             title: this.xtitle
           }
@@ -141,6 +147,7 @@ export default {
         recordsPerPage: self.recordsPerPage
       }).then(data => {
         self.data = data
+        console.log(data)
       })
     }
   }

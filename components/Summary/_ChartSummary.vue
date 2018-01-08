@@ -33,45 +33,39 @@
     <hr/>
     <div class="columns">
       <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="num" :sort="-1" title="[$] Top số lượng giá biến động" xtitle="Price change"></VolumeChartComponent>
+        <BarLastPrevChart :refresh="refresh" :time="type" top="baseVolumeNum" last="baseVolume" prev="prevBaseVolume" title="[VOL] Top số lượng vốn hóa biến động" xtitle="Volume change"></BarLastPrevChart>
+      </div>
+      <div class="column">
+        <VolumeChartComponent :refresh="refresh" :time="type" top="num" title="[$] Top số lượng giá biến động" xtitle="Price change"></VolumeChartComponent>
       </div>
     </div>
     <div class="columns">
       <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolumeNum" :sort="-1" title="[VOL] Top số lượng vốn hóa biến động" xtitle="Volume change"></VolumeChartComponent>
+        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolumePercent" format="percent" title="[VOL] Top tỉ lệ vốn hóa biến động %" xtitle="Volume change %"></VolumeChartComponent>
+      </div>
+      <div class="column">
+        <VolumeChartComponent :refresh="refresh" :time="type" top="percent" format="percent" title="[$] Top tỉ lệ giá biến động %" xtitle="Last price change %"></VolumeChartComponent>
       </div>
     </div>
     <div class="columns">
       <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolumePercent" format="percent" :sort="-1" title="[VOL] Top tỉ lệ vốn hóa biến động %" xtitle="Volume change %"></VolumeChartComponent>
+        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolume" title="[VOL] Top giá trị vốn hóa" xtitle="Volume"></VolumeChartComponent>
       </div>
-    </div>
-    <div class="columns">
       <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="percent" format="percent" :sort="-1" title="[$] Top tỉ lệ giá biến động %" xtitle="Last price change %"></VolumeChartComponent>
+        <VolumeChartComponent :refresh="refresh" :time="type" top="last" title="[$] Top giá hiện tại" xtitle="Last price"></VolumeChartComponent>
       </div>
-    </div>
-    <div class="columns">
-      <div class="column">
-        <VolumePieChartComponent :refresh="refresh" :time="type" top="baseVolume" :sort="-1" title="[VOL] Top giá trị vốn hóa" xtitle="Volume"></VolumePieChartComponent>
-      </div>
-    </div>
-    <div class="columns">
-      <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="last" :sort="-1" title="[$] Top giá hiện tại" xtitle="Last price"></VolumeChartComponent>
-      </div>
-    </div>
+    </div>    
   </div>
 </template>
 
 <script>
 import VolumeChartComponent from './_VolumeChart'
-import VolumePieChartComponent from './_VolumePieChart'
+import BarLastPrevChart from './_BarLastPrevChart'
 import Bittrex from '../../provider/Bittrex'
 
 export default {
   props: ['rate', 'lastsync'],
-  components: { VolumeChartComponent, VolumePieChartComponent },
+  components: { VolumeChartComponent, BarLastPrevChart },
   filters: { },
   data() {
     return {
@@ -93,7 +87,6 @@ export default {
   methods: {
     loadRefesh() {
       const self = this
-      console.log('refesh', Bittrex.getTimeUpdate(self.type))
       if (this.tm) clearInterval(this.tm)
       this.tm = setInterval(() => {
         self.refresh = new Date()
