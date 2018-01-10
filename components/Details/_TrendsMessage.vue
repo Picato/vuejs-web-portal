@@ -1,21 +1,23 @@
 <template>
   <div>
     <h1 class="subtitle">Bot Messages</h1>
-    <table class="table is-striped is-narrow is-fullwidth" v-if="data && data.length > 0">
-      <tr v-for="(item, i) in data" :key="item._id">
-        <td>
-          <p class="has-text-justified"><b>{{i+1}}</b>. <span>{{item.txt}}</span> <span class="tag" :class="{'is-info': item.style === 'VOLUME', 'is-primary': item.style === 'COIN'}">{{item.style}}</span></p>
-        </td>
-        <td width="1" class="has-text-right has-text-dark">
-          <div class="has-text-grey-light">
-            {{item.updated_at | $date('HH:mm:SS')}}
-            <small>{{item.updated_at | $date}}</small>
-          </div>
-        </td>
-      </tr>
-    </table>
-    <div v-else>
-      No message
+    <div>
+      <table class="table is-striped is-narrow is-fullwidth" v-if="data && data.length > 0">
+        <tr v-for="(item, i) in data" :key="item._id">
+          <td>
+            <p class="has-text-justified"><b>{{i+1}}</b>. <span>{{item.txt}}</span> <span class="tag" :class="{'is-info': item.style === 'VOLUME', 'is-primary': item.style === 'COIN'}">{{item.style}}</span></p>
+          </td>
+          <td width="1" class="has-text-right has-text-dark">
+            <div class="has-text-grey-light">
+              {{item.updated_at | $date('HH:mm:SS')}}
+              <small>{{item.updated_at | $date}}</small>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div v-else>
+        No message
+      </div>
     </div>
   </div>
 </template>

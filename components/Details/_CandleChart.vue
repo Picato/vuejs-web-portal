@@ -46,6 +46,7 @@ export default {
           width: '100%',
           legend: { position: 'none' },
           // legend: 'none',
+          bar: { groupWidth: '100%' },
           chartArea: {left: 150, top: 30, bottom: 60, width: '100%', height: '100%'},
           tooltip: { isHtml: false },
           explorer: {
@@ -55,7 +56,7 @@ export default {
             maxZoomOut: 1.0
           },
           hAxis: {
-            title: 'Time (5min)',
+            title: 'Time',
             gridlines: {
               count: -1,
               units: {

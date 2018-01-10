@@ -43,9 +43,10 @@
       <MarketComponent :rate="rate" v-if="rate && menu === 'tatca'"></MarketComponent>
       <ChartSummaryComponent v-if="menu === 'chart'"></ChartSummaryComponent>
       <VolumeSummaryComponent v-if="menu === 'chartVolumeSummary'"></VolumeSummaryComponent>
+      <TimeInDecreaseChart v-if="menu === 'chartVolumeSummary'"></TimeInDecreaseChart>
       <TrendingMessageComponent v-if="menu === 'trendingmessage'"></TrendingMessageComponent>
       <TelegramComponent v-show="menu === 'telegram'"></TelegramComponent>
-      <TinhLaiComponent :rate="rate" v-if="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>            
+      <TinhLaiComponent :rate="rate" v-if="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>      
     </div>
 
   </div>
@@ -76,11 +77,12 @@ import RateComponent from './_Rate'
 import TelegramComponent from './_Telegram'
 import TrendingMessageComponent from './_TrendingMessage'
 import ChartSummaryComponent from './Summary/_ChartSummary'
-import VolumeSummaryComponent from './Summary/_VolumePieChart'
+import VolumeSummaryComponent from './SummaryTotal/_VolumePieChart'
+import TimeInDecreaseChart from './SummaryTotal/_TimeInDecreaseChart'
 import Bittrex from '../provider/Bittrex'
 
 export default {
-  components: { MarketComponent, TinhLaiComponent, RateComponent, TelegramComponent, TrendingMessageComponent, ChartSummaryComponent, VolumeSummaryComponent },
+  components: { MarketComponent, TinhLaiComponent, RateComponent, TelegramComponent, TrendingMessageComponent, ChartSummaryComponent, VolumeSummaryComponent, TimeInDecreaseChart },
   filters: {
     $coinname(value) {
       return value.split('-')[0]

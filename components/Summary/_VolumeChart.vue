@@ -53,9 +53,10 @@
 <script>
 import { GoogleCharts } from 'google-charts'
 import Bittrex from '../../provider/Bittrex'
+import moment from 'moment'
 
 export default {
-  props: ['title', 'time', 'top', 'xtitle', 'format', 'refresh'],
+  props: ['title', 'time', 'top', 'xtitle', 'format', 'refresh', 'prev', 'last'],
   filters: { },
   data() {
     return {
@@ -111,7 +112,9 @@ export default {
             {type: 'string', role: 'tooltip', 'p': {'html': true}}
           ],
           ...value.map(e => {
-            return [e.key, e[this.top], `${Bittrex.formatNumber(e[this.top])}${this.format === 'percent' ? '%' : ''}`, `Time: ${e.time}
+            return [e.key, e[this.top], `${Bittrex.formatNumber(e[this.top])}${this.format === 'percent' ? '%' : ''}`, `${moment(e.time).format('hh:mm DD/MM/YYYY')}
+  - Prev: ${Bittrex.formatNumber(e[this.prev])}
+  - Last: ${Bittrex.formatNumber(e[this.last])}
   - ${this.xtitle}: ${Bittrex.formatNumber(e[this.top])}`]
           })
         ], false), {

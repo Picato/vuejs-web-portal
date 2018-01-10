@@ -2,6 +2,16 @@ import axios from 'axios'
 import { appconfig } from '../package.json'
 
 export default {
+  getDayOfWeek(day) {
+    if (day === 0) return 'Sun'
+    if (day === 1) return 'Mon'
+    if (day === 2) return 'Tue'
+    if (day === 3) return 'Wed'
+    if (day === 4) return 'Thu'
+    if (day === 5) return 'Fri'
+    if (day === 6) return 'Sat'
+    return 'Error'
+  },
   getTimeUpdate(type) {
     if (type === 'HandlerMin1') return 60 * 1000
     if (type === 'HandlerMin3') return 3 * 60 * 1000
@@ -24,6 +34,18 @@ export default {
   },
   getPriceDetail(type, coin) {
     return axios.get(`${appconfig.app.apiUrl}/market/${coin}`, {
+      params: {
+        type
+      }
+    }).then(resp => resp.data)
+  },
+  getPriceByTime(type, coin, opts = {}) {
+    if (!coin) {
+      return axios.get(`${appconfig.app.apiUrl}/statistic/markets-by-time`, {
+        params: Object.assign({ type }, opts)
+      }).then(resp => resp.data)
+    }
+    return axios.get(`${appconfig.app.apiUrl}/statistic/markets-by-time/${coin}`, {
       params: {
         type
       }

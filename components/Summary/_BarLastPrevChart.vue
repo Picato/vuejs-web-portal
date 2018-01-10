@@ -107,17 +107,14 @@ export default {
           [
             {label: 'Market', type: 'string'},
             {label: 'Last', type: 'number'},
-            {label: 'Prev', type: 'number'},
-            {type: 'string', role: 'tooltip', 'p': {'html': true}}
+            {label: 'Prev', type: 'number'}
           ],
           ...value.map(e => {
             console.log(e[this.last], e[this.prev])
             return [
               e.key,
               e[this.last],
-              e[this.prev],
-              `Time: ${e.time}
-  - ${this.xtitle}: ${Bittrex.formatNumber(e[this.top])}`
+              e[this.prev]
             ]
           })
         ], false), {

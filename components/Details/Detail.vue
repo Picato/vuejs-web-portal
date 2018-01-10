@@ -46,6 +46,11 @@
             <VolumeChart :market="detail.key" :time="ftime"></VolumeChart>
           </div>
         </div>
+        <div class="columns">
+          <div class="column">
+            <TimeInDecreaseChart :market="detail.key" :time="ftime"></TimeInDecreaseChart>
+          </div>
+        </div>
       </div>
       <div class="column is-3">
         <TrendsMessage :market="detail.key" :time="ftime"></TrendsMessage>
@@ -55,6 +60,7 @@
 </template>
 
 <script>
+import TimeInDecreaseChart from './_TimeInDecreaseChart'
 import VolumeChart from './_VolumeChart'
 import CandleChart from './_CandleChart'
 import TrendsMessage from './_TrendsMessage'
@@ -62,7 +68,7 @@ import Bittrex from '../../provider/Bittrex'
 
 export default {
   filters: { },
-  components: { VolumeChart, CandleChart, TrendsMessage },
+  components: { VolumeChart, CandleChart, TrendsMessage, TimeInDecreaseChart },
   data() {
     return {
       market: undefined,
@@ -89,7 +95,11 @@ export default {
     updateLastPrice() {
       const self = this
       return Bittrex.getPriceDetail('HandlerMin1', self.market).then(data => {
-        self.detail = data
+        if (self.ftime !== 'HandlerMin1') {
+          return Bittrex.getPriceDetail(self.ftime, self.market).then(odata => {
+            self.detail = Object.assign(data, { num: data.last - odata.last })
+          })
+        }
       })
     }
   }

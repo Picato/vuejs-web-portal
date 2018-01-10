@@ -33,26 +33,26 @@
     <hr/>
     <div class="columns">
       <div class="column">
-        <BarLastPrevChart :refresh="refresh" :time="type" top="baseVolumeNum" last="baseVolume" prev="prevBaseVolume" title="[VOL] Top số lượng vốn hóa biến động" xtitle="Volume change"></BarLastPrevChart>
+        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolumeNum" prev="prevBaseVolume" last="baseVolume" title="[VOL] Top giá trị vốn hóa biến động" xtitle="Volume change"></VolumeChartComponent>
       </div>
       <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="num" title="[$] Top số lượng giá biến động" xtitle="Price change"></VolumeChartComponent>
-      </div>
-    </div>
-    <div class="columns">
-      <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolumePercent" format="percent" title="[VOL] Top tỉ lệ vốn hóa biến động %" xtitle="Volume change %"></VolumeChartComponent>
-      </div>
-      <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="percent" format="percent" title="[$] Top tỉ lệ giá biến động %" xtitle="Last price change %"></VolumeChartComponent>
+        <VolumeChartComponent :refresh="refresh" :time="type" top="num" prev="prev" last="last" title="[$] Top giá biến động" xtitle="Price change"></VolumeChartComponent>
       </div>
     </div>
     <div class="columns">
       <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolume" title="[VOL] Top giá trị vốn hóa" xtitle="Volume"></VolumeChartComponent>
+        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolumePercent" prev="prevBaseVolume" last="baseVolume" format="percent" title="[VOL] Top tỉ lệ vốn hóa biến động %" xtitle="Volume change %"></VolumeChartComponent>
       </div>
       <div class="column">
-        <VolumeChartComponent :refresh="refresh" :time="type" top="last" title="[$] Top giá hiện tại" xtitle="Last price"></VolumeChartComponent>
+        <VolumeChartComponent :refresh="refresh" :time="type" top="percent" prev="prev" last="last" format="percent" title="[$] Top tỉ lệ giá biến động %" xtitle="Last price change %"></VolumeChartComponent>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <VolumeChartComponent :refresh="refresh" :time="type" top="baseVolume" title="[VOL] Top giá trị vốn hóa lớn (nhỏ) nhất" xtitle="Volume"></VolumeChartComponent>
+      </div>
+      <div class="column">
+        <VolumeChartComponent :refresh="refresh" :time="type" top="last" title="[$] Top giá hiện tại lớn (nhỏ) nhất" xtitle="Last price"></VolumeChartComponent>
       </div>
     </div>    
   </div>
