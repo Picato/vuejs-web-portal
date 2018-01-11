@@ -14,14 +14,6 @@ export default {
   filters: { },
   data() {
     return {
-      format: {
-        min1: 'hh:mm',
-        min3: 'hh:mm',
-        min5: 'hh:mm',
-        min30: 'hh:mm',
-        hour: 'hh:mm',
-        day: 'd/M'
-      },
       data: undefined,
       chart: undefined
     }

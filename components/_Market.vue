@@ -35,8 +35,8 @@
               Last 3 minutes
             </label>
             <label class="radio">
-              <input type="radio" value="HandlerMin5" v-model="ftime" @change="getTatca()">
-              Last 5 minutes
+              <input type="radio" value="HandlerMin15" v-model="ftime" @change="getTatca()">
+              Last 15 minutes
             </label>
             <label class="radio">
               <input type="radio" value="HandlerMin30" v-model="ftime" @change="getTatca()">

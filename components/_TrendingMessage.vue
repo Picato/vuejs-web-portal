@@ -10,8 +10,8 @@
         Last 3 minutes
       </label>
       <label class="radio">
-        <input type="radio" name="type" value="HandlerMin5" v-model="type" @change="changeType()">
-        Last 5 minutes
+        <input type="radio" name="type" value="HandlerMin15" v-model="type" @change="changeType()">
+        Last 15 minutes
       </label>
       <label class="radio">
         <input type="radio" name="type" value="HandlerMin30" v-model="type" @change="changeType()">

@@ -15,7 +15,7 @@ export default {
   getTimeUpdate(type) {
     if (type === 'HandlerMin1') return 60 * 1000
     if (type === 'HandlerMin3') return 3 * 60 * 1000
-    if (type === 'HandlerMin5') return 5 * 60 * 1000
+    if (type === 'HandlerMin15') return 15 * 60 * 1000
     if (type === 'HandlerMin30') return 30 * 60 * 1000
     if (type === 'HandlerHour1') return 60 * 60 * 1000
     return 5000
