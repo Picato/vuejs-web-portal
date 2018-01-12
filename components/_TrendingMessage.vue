@@ -30,7 +30,7 @@
     <table class="table is-bordered is-striped is-narrow is-fullwidth">
       <tr v-for="item in data" :key="item._id">
         <td width="200">
-          <a :href="'https://bittrex.com/Market/Index?MarketName=' + item.key" :target="item.key">{{item.key}}</a>        
+          <a :href="'/coin/market/' + item.key" :target="item.key">{{item.key}}</a>        
         </td>       
         <td>{{item.txt}}</td>
         <th><span class="tag" :class="{'is-info': item.style === 'VOLUME', 'is-primary': item.style === 'COIN'}">{{item.style}}</span></th>
