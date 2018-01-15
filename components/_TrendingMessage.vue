@@ -33,7 +33,7 @@
           <a :href="'/coin/market/' + item.key" :target="item.key">{{item.key}}</a>        
         </td>       
         <td>{{item.txt}}</td>
-        <th><span class="tag" :class="{'is-info': item.style === 'VOLUME', 'is-primary': item.style === 'COIN'}">{{item.style}}</span></th>
+        <th><span class="tag" :class="{'is-info': item.style === 'VOLUME', 'is-primary': item.style === 'COIN', 'is-danger': item.style === 'MATRIX'}">{{item.style}}</span></th>
         <td>
           {{item.updated_at | $date('HH:mm:SS')}} <span class="tag">{{item.updated_at | $date}}</span>
         </td>
