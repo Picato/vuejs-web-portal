@@ -65,14 +65,13 @@
 
 <script>
 import TimeInDecreaseChart from './_TimeInDecreaseChart'
-import AlertMessage from './_AlertMessage'
 import CandleChart from './_CandleChart'
 import TrendsMessage from './_TrendsMessage'
 import Bittrex from '../../provider/Bittrex'
 
 export default {
   filters: { },
-  components: { AlertMessage, CandleChart, TrendsMessage, TimeInDecreaseChart },
+  components: { CandleChart, TrendsMessage, TimeInDecreaseChart },
   data() {
     return {
       market: undefined,
