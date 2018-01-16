@@ -41,9 +41,9 @@
             <CandleChart :market="detail.key" :time="ftime"></CandleChart>
           </div>
         </div>
-        <div class="columns">
+        <div class="columns" v-if="marketName !== 'USDT'">
           <div class="column">
-            <VolumeChart :market="detail.key" :time="ftime"></VolumeChart>
+            <CandleChart :market="'USDT-' + marketName" :time="ftime"></CandleChart>
           </div>
         </div>
         <div class="columns">
@@ -53,7 +53,11 @@
         </div>
       </div>
       <div class="column is-3">
-        <TrendsMessage :market="detail.key" :time="ftime"></TrendsMessage>
+        <div class="columns">
+          <div class="column" style="max-height: 1200px; overflow-y: auto;">
+            <TrendsMessage :market="detail.key" :time="ftime"></TrendsMessage>
+          </div>          
+        </div>
       </div>
     </div>
   </div>
@@ -61,14 +65,14 @@
 
 <script>
 import TimeInDecreaseChart from './_TimeInDecreaseChart'
-import VolumeChart from './_VolumeChart'
+import AlertMessage from './_AlertMessage'
 import CandleChart from './_CandleChart'
 import TrendsMessage from './_TrendsMessage'
 import Bittrex from '../../provider/Bittrex'
 
 export default {
   filters: { },
-  components: { VolumeChart, CandleChart, TrendsMessage, TimeInDecreaseChart },
+  components: { AlertMessage, CandleChart, TrendsMessage, TimeInDecreaseChart },
   data() {
     return {
       market: undefined,
@@ -78,7 +82,11 @@ export default {
     }
   },
   watch: { },
-  computed: { },
+  computed: {
+    marketName() {
+      return this.market.split('-')[0]
+    }
+  },
   mounted() {
     const self = this
     this.market = this.$route.params.key

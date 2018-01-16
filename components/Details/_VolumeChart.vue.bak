@@ -42,16 +42,25 @@ export default {
         this.chart.draw(GoogleCharts.api.visualization.arrayToDataTable([
           [
             {label: 'Time', type: 'date'},
-            {label: 'Volume', type: 'number'},
+            {label: `${this.coinName} Volume`, type: 'number'},
+            {label: `${this.marketName} Volume`, type: 'number'},
             {type: 'string', role: 'tooltip', 'p': {'html': true}}
           ],
           ...value
         ], false), {
           title: `Volume of ${this.market}`,
           width: '100%',
-          legend: { position: 'none' },
+          // legend: { position: 'none' },
           // legend: 'none',
-          chartArea: {left: 150, top: 30, bottom: 60, width: '100%', height: '100%'},
+          focusTarget: 'category',
+          seriesType: 'bars',
+          series: {
+            1: {
+              type: 'line',
+              targetAxisIndex: 1
+            }
+          },
+          // chartArea: {left: 150, top: 30, bottom: 60, width: '100%', height: '100%'},
           tooltip: { isHtml: false },
           explorer: {
             axis: 'horizontal',
@@ -60,7 +69,8 @@ export default {
             maxZoomOut: 1.0
           },
           hAxis: {
-            title: 'Time (5min)',
+            title: 'Time',
+            direction: 1,
             gridlines: {
               count: -1,
               units: {
@@ -75,18 +85,30 @@ export default {
               }
             }
           },
-          vAxis: {
-            title: `Volume (${this.market.split('-')[0]})`
+          vAxes: {
+            0: {
+              title: `Volume ${this.coinName} / ${this.marketName}`
+            },
+            1: {
+              title: `Volume ${this.marketName}`
+            }
           }
         })
       }
     }
   },
-  computed: { },
+  computed: {
+    marketName() {
+      return this.market.split('-')[0]
+    },
+    coinName() {
+      return this.market.split('-')[1]
+    }
+  },
   mounted() {
     const self = this
     GoogleCharts.load(() => {
-      self.chart = new GoogleCharts.api.visualization.ColumnChart(this.$el.querySelector('.chart'))
+      self.chart = new GoogleCharts.api.visualization.ComboChart(this.$el.querySelector('.chart'))
       self.loadData()
     })
   },
@@ -94,13 +116,17 @@ export default {
     loadData() {
       if (this.market && this.time) {
         const self = this
-        Bittrex.getPrice(self.time, self.market).then(data => {
-          if (data) {
-            self.data = data.reverse().map(e => {
-              return [new Date(e.time), e.baseVolume, `Time: ${moment(e.time).format(self.format[self.time])}
-    - Volume: ${Bittrex.formatNumber(e.baseVolume)} (${Bittrex.formatNumber(e.baseVolumePercent)}%)`]
+        Bittrex.getPrice(self.time, `USDT-${this.marketName}`).then(btc => {
+          Bittrex.getPrice(self.time, self.market).then(data => {
+            self.data = data.map((e, i) => {
+              const rs = [new Date(e.time), e.baseVolume, btc[i] ? btc[i].baseVolume : undefined, `Time: ${moment(e.time).format(self.format[self.time])}
+- Volume: ${Bittrex.formatNumber(e.baseVolume)} (${Bittrex.formatNumber(e.baseVolumePercent)}%)`]
+              if (btc[i]) {
+                rs[rs.length - 1] += `- ${this.marketName}: ${Bittrex.formatNumber(btc[i].baseVolume)})`
+              }
+              return rs
             })
-          }
+          })
         })
       }
     }
