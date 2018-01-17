@@ -46,6 +46,11 @@
             <CandleChart :market="'USDT-' + marketName" :time="ftime"></CandleChart>
           </div>
         </div>
+        <div class="columns" v-if="marketName !== 'USDT'">
+          <div class="column">
+            <BooksChart :market="detail.key" :time="ftime" action="buy"></BooksChart>
+          </div>
+        </div>
         <div class="columns">
           <div class="column">
             <TimeInDecreaseChart :market="detail.key" :time="ftime"></TimeInDecreaseChart>
@@ -66,12 +71,13 @@
 <script>
 import TimeInDecreaseChart from './_TimeInDecreaseChart'
 import CandleChart from './_CandleChart'
+import BooksChart from './_BooksChart'
 import TrendsMessage from './_TrendsMessage'
 import Bittrex from '../../provider/Bittrex'
 
 export default {
   filters: { },
-  components: { CandleChart, TrendsMessage, TimeInDecreaseChart },
+  components: { BooksChart, CandleChart, TrendsMessage, TimeInDecreaseChart },
   data() {
     return {
       market: undefined,
