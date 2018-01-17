@@ -62,8 +62,9 @@ export default {
   created() { },
   methods: {
     login() {
+      const self = this
       AuthProvider.login(this.user).then(vl => {
-        this.$router.push('/coin/market')
+        this.$router.push(self.$route.query.redirect || '/coin/market')
       })
     }
   }
