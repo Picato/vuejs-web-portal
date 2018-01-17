@@ -1,5 +1,5 @@
 <template>
-  <div v-if="detail" style="background: white; padding: 16px;">
+  <div v-if="detail" style="background: white; padding: 16px;" v-page:title="title">
     <h1 class="title">
       <a :href="'https://bittrex.com/Market/Index?MarketName=' + detail.key" :target="detail.key">{{detail.key}}</a>
       <small class="subtitle">{{detail.last | $number}}
@@ -84,6 +84,10 @@ export default {
   computed: {
     marketName() {
       return this.market.split('-')[0]
+    },
+    title() {
+      if (!this.detail) return undefined
+      return `${this.market}🚩️${Bittrex.formatNumber(this.detail.last)}`
     }
   },
   mounted() {
