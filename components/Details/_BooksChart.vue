@@ -39,7 +39,7 @@ export default {
           ],
           ...value
         ], false), {
-          title: `Last price of ${this.market}`,
+          title: `${this.action === 'buy' ? 'Buying' : 'Selling'} of ${this.market}`,
           width: '100%',
           // legend: { position: 'none' },
           // legend: 'none',
@@ -59,9 +59,6 @@ export default {
               targetAxisIndex: 1,
               color: 'orange'
             }
-          },
-          hAxis: {
-            title: 'Time'
           },
           vAxes: {
             0: {

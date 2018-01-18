@@ -40,28 +40,25 @@
           <div class="column">
             <CandleChart :market="detail.key" :time="ftime"></CandleChart>
           </div>
-        </div>
-        <div class="columns" v-if="marketName !== 'USDT'">
-          <div class="column">
+          <div class="column" v-if="marketName !== 'USDT'">
             <CandleChart :market="'USDT-' + marketName" :time="ftime"></CandleChart>
           </div>
         </div>
-        <div class="columns" v-if="marketName !== 'USDT'">
+        <div class="columns">
           <div class="column">
             <BooksChart :market="detail.key" :time="ftime" action="buy"></BooksChart>
+          </div>
+          <div class="column">
+            <BooksChart :market="detail.key" :time="ftime" action="sell"></BooksChart>
           </div>
         </div>
         <div class="columns">
           <div class="column">
             <TimeInDecreaseChart :market="detail.key" :time="ftime"></TimeInDecreaseChart>
           </div>
-        </div>
-      </div>
-      <div class="column is-3">
-        <div class="columns">
-          <div class="column" style="max-height: 1200px; overflow-y: auto;">
+          <div class="column is-3" style="max-height: 1200px; overflow-y: auto;">
             <TrendsMessage :market="detail.key" :time="ftime"></TrendsMessage>
-          </div>          
+          </div>
         </div>
       </div>
     </div>

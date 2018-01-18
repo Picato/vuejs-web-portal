@@ -2,7 +2,7 @@
   <div>
     <div class="columns">
       <div class="column">
-        <div class="control is-pulled-right">
+        <div class="control is-pulled-left">
           <label><b>Group by</b></label>&nbsp;&nbsp;&nbsp;
           <label class="radio">
             <input type="radio" value="HandlerMin30" v-model="type">
@@ -17,7 +17,7 @@
     </div>
     <div class="columns">
       <div class="column">
-        <div class="control is-pulled-right">
+        <div class="control is-pulled-left">
           <label><b>Group by</b></label>&nbsp;&nbsp;&nbsp;
           <label class="radio">
             <input type="radio" value="low" v-model="priceType">
