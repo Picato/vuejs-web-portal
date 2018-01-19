@@ -4,7 +4,7 @@
       <td>1 <b class="is-BTC">BTC</b> = <b>{{rate['BTC-USDT'] | $number}}</b> <b class="is-USDT">USDT</b></td>
       <td>1 <b class="is-ETH">ETH</b> = <b>{{rate['ETH-USDT'] | $number}}</b> <b class="is-USDT">USDT</b></td>
       <td>1 <b class="is-BTC">BTC</b> = <b>{{rate['BTC-ETH'] | $number}}</b> <b class="is-ETH">ETH</b></td>            
-      <td>1 <b class="is-USDT">USDT</b> = <input type="number" v-model.number="vndRate" /> <b class="is-VND">VND</b></td>
+      <td>1 <b class="is-USDT">USDT</b> = <b>{{rate['vndBuy'] | $number}}</b>/<b>{{rate['vndSell'] | $number}}</b> <b class="is-VND">VND</b></td>
       <td width="150"><span class="fa fa-clock-o"></span>&nbsp;{{ lastsync | $date('HH:mm:ss') }}</td>
       <td width="80"><a @click="logout()">Logout!</a></td>
     </tr>
@@ -19,17 +19,12 @@ export default {
   props: ['rate', 'lastsync'],
   filters: { },
   data() {
-    return {
-      vndRate: undefined
-    }
+    return { }
   },
   computed: { },
   mounted() { },
   watch: {
-    $route({ name }) {},
-    vndRate(value) {
-      this.$emit('changeVND', value)
-    }
+    $route({ name }) {}
   },
   methods: {
     logout() {

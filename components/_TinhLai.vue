@@ -68,8 +68,8 @@
           <h1 class="title">Kết quả tính toán lãi</h1>
           <table class="table is-striped is-narrow is-fullwidth">
             <tr>
-              <th v-if="rate.vnd">VND</th>
-              <td :class="{'has-text-success': tienlaiUSDT > 0, 'has-text-danger': tienlaiUSDT < 0}" v-if="rate.vnd">{{tienlaiUSDT > 0 ? '+' : ''}} {{(tienlaiUSDT * rate.vnd) | $number}}</td>
+              <th v-if="rate.vndSell">VND</th>
+              <td :class="{'has-text-success': tienlaiUSDT > 0, 'has-text-danger': tienlaiUSDT < 0}" v-if="rate.vndSell">{{tienlaiUSDT > 0 ? '+' : ''}} {{(tienlaiUSDT * rate.vndSell) | $number}}</td>
             </tr>
             <tr>
               <th width="80">USDT</th>              
@@ -111,7 +111,7 @@ export default {
         btc: undefined,
         usdt: undefined,
         eth: undefined,
-        vnd: undefined
+        vndSell: undefined
       }
     }
   },
@@ -135,7 +135,7 @@ export default {
       return Bittrex.toETH(this.tienlaiUSDT, 'USDT', this.rate)
     },
     tienlaiVND() {
-      return this.tienlaiUSDT * this.rate.vnd
+      return this.tienlaiUSDT * this.rate.vndSell
     }
   },
   mounted() { },

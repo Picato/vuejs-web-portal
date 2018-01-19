@@ -1,12 +1,18 @@
 <template>
   <div>
-    <RateComponent v-if="rate" :rate="rate" :lastsync="lastsync" @changeVND="changeVND($event)"></RateComponent>
+    <RateComponent v-if="rate && lastsync" :rate="rate" :lastsync="lastsync"></RateComponent>
     <div class="tabs is-boxed" v-if="rate">
       <ul>
         <li :class="{'is-active': menu === 'tatca'}" @click="menu='tatca'"><a>
           <span class="icon is-small"><i class="fa fa-dashboard"></i></span>
           <span>Thống kê</span>
         </a></li>
+        <li :class="{'is-active': menu === 'remitanoPrice'}" @click="menu='remitanoPrice'">
+          <a>
+            <span class="icon is-small"><i class="fa fa-line-chart"></i></span>
+            <span>Remitano</span>
+          </a>
+        </li>
         <li :class="{'is-active': menu === 'chart'}" @click="menu='chart'">
           <a>
             <span class="icon is-small"><i class="fa fa-line-chart"></i></span>
@@ -41,12 +47,13 @@
     </div>
     <div>
       <MarketComponent :rate="rate" v-if="rate && menu === 'tatca'"></MarketComponent>
+      <RemitanoChartSummaryComponent :rate="rate" v-if="menu === 'remitanoPrice'"></RemitanoChartSummaryComponent>      
       <ChartSummaryComponent v-if="menu === 'chart'"></ChartSummaryComponent>
       <VolumeSummaryComponent v-if="menu === 'chartVolumeSummary'"></VolumeSummaryComponent>
       <TimeInDecreaseChart v-if="menu === 'chartVolumeSummary'"></TimeInDecreaseChart>
       <TrendingMessageComponent v-if="menu === 'trendingmessage'"></TrendingMessageComponent>
       <TelegramComponent v-show="menu === 'telegram'"></TelegramComponent>
-      <TinhLaiComponent :rate="rate" v-if="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>      
+      <TinhLaiComponent :rate="rate" v-if="rate" v-show="menu === 'tinhlai'"></TinhLaiComponent>            
     </div>
 
   </div>
@@ -79,10 +86,11 @@ import TrendingMessageComponent from './_TrendingMessage'
 import ChartSummaryComponent from './Summary/_ChartSummary'
 import VolumeSummaryComponent from './SummaryTotal/_VolumePieChart'
 import TimeInDecreaseChart from './SummaryTotal/_TimeInDecreaseChart'
+import RemitanoChartSummaryComponent from './Remitano/_ChartSummary'
 import Bittrex from '../provider/Bittrex'
 
 export default {
-  components: { MarketComponent, TinhLaiComponent, RateComponent, TelegramComponent, TrendingMessageComponent, ChartSummaryComponent, VolumeSummaryComponent, TimeInDecreaseChart },
+  components: { RemitanoChartSummaryComponent, MarketComponent, TinhLaiComponent, RateComponent, TelegramComponent, TrendingMessageComponent, ChartSummaryComponent, VolumeSummaryComponent, TimeInDecreaseChart },
   filters: {
     $coinname(value) {
       return value.split('-')[0]
@@ -103,15 +111,24 @@ export default {
     $route({ name }) { }
   },
   methods: {
-    changeVND(vndRate) {
-      this.$set(this.rate, 'vnd', vndRate)
-    },
     loadRate() {
       const self = this
-      Bittrex.getRate().then(data => {
-        self.rate = Object.assign({}, self.rate, data)
+      Promise.all([
+        Bittrex.getRate().then(data => {
+          // self.rate = Object.assign({}, self.rate, data)
+          return data
+        }),
+        Bittrex.getRemitanoRate().then(r => {
+          return r
+        })
+      ]).then(rs => {
+        rs[0].vndBuy = Math.round(rs[1].usdt_ask)
+        rs[0].vndSell = Math.round(rs[1].usdt_bid)
+        self.rate = rs[0]
         self.lastsync = new Date()
-        setTimeout(self.loadRate, 5000)
+        setTimeout(() => {
+          self.loadRate.apply(self)
+        }, 5000)
       })
     }
   }

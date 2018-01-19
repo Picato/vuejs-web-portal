@@ -20,8 +20,8 @@ export default {
     if (type === 'HandlerHour1') return 60 * 60 * 1000
     return 5000
   },
-  formatNumber(value) {
-    return Number(value).toLocaleString(undefined, { maximumFractionDigits: 8, minimumFractionDigits: 8 })
+  formatNumber(value, digit = 8) {
+    return Number(value).toLocaleString(undefined, { maximumFractionDigits: digit, minimumFractionDigits: digit })
   },
   toETH(price, market, rate) {
     return price * (rate[`${market}-ETH`] || 1)
@@ -65,6 +65,17 @@ export default {
   },
   getRate(type) {
     return axios.get(`${appconfig.app.apiUrl}/rate`).then(resp => resp.data)
+  },
+  getRemitanoRate() {
+    return axios.get(`${appconfig.app.apiUrl}/remitano/rate`).then(resp => resp.data)
+  },
+  getRemitanoData(type, cur) {
+    return axios.get(`${appconfig.app.apiUrl}/remitano`, {
+      params: {
+        type,
+        cur
+      }
+    }).then(resp => resp.data)
   },
   getTrends(type) {
     return axios.get(`${appconfig.app.apiUrl}/trends`, {
