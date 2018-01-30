@@ -9,18 +9,6 @@
     </h1>        
     <div class="control">
       <label class="radio">
-        <input type="radio" value="HandlerMin1" v-model="ftime">
-        Last 1 minutes
-      </label>
-      <label class="radio">
-        <input type="radio" value="HandlerMin3" v-model="ftime">
-        Last 3 minutes
-      </label>
-      <label class="radio">
-        <input type="radio" value="HandlerMin15" v-model="ftime">
-        Last 15 minutes
-      </label>
-      <label class="radio">
         <input type="radio" value="HandlerMin30" v-model="ftime">
         Last 30 minutes
       </label>

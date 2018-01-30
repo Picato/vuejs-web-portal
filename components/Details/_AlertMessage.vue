@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1 class="subtitle">Bot Messages</h1>
+    <h1 class="subtitle">Alert Messages</h1>
     <div>
       <table class="table is-striped is-narrow is-fullwidth" v-if="data && data.length > 0">
         <tr v-for="(item, i) in data" :key="item._id">
           <td>
-            <p class="has-text-justified"><b>{{i+1}}</b>. <span>{{item.txt}}</span> <span class="tag" :class="{'is-default': item.style === 'VOLUME', 'is-default': item.style === 'COIN', 'is-info': item.style === 'MATRIX', 'is-danger': item.style === 'DUMP', 'is-success': item.style === 'PUMP'}">{{item.style}}</span></p>
+            <p class="has-text-justified"><b>{{i+1}}</b>. <span>{{item.txt}}</span> <span class="tag" :class="{'is-info': item.style === 'VOLUME', 'is-primary': item.style === 'COIN', 'is-danger': item.style === 'MATRIX'}">{{item.style}}</span></p>
           </td>
           <td width="1" class="has-text-right has-text-dark">
             <div class="has-text-grey-light">
@@ -16,7 +16,7 @@
         </tr>
       </table>
       <div v-else>
-        No message
+        No alert
       </div>
     </div>
   </div>

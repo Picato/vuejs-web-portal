@@ -6,14 +6,6 @@
         Last 1 minutes
       </label>
       <label class="radio">
-        <input type="radio" name="type" value="HandlerMin3" v-model="type" @change="changeType()">
-        Last 3 minutes
-      </label>
-      <label class="radio">
-        <input type="radio" name="type" value="HandlerMin15" v-model="type" @change="changeType()">
-        Last 15 minutes
-      </label>
-      <label class="radio">
         <input type="radio" name="type" value="HandlerMin30" v-model="type" @change="changeType()">
         Last 30 minutes
       </label>
@@ -33,7 +25,7 @@
           <a :href="'/coin/market/' + item.key" :target="item.key">{{item.key}}</a>        
         </td>       
         <td>{{item.txt}}</td>
-        <th><span class="tag" :class="{'is-info': item.style === 'VOLUME', 'is-primary': item.style === 'COIN', 'is-danger': item.style === 'MATRIX'}">{{item.style}}</span></th>
+        <th><span class="tag" :class="{'is-default': item.style === 'VOLUME', 'is-default': item.style === 'COIN', 'is-info': item.style === 'MATRIX', 'is-danger': item.style === 'DUMP', 'is-success': item.style === 'PUMP'}">{{item.style}}</span></th>
         <td>
           {{item.updated_at | $date('HH:mm:SS')}} <span class="tag">{{item.updated_at | $date}}</span>
         </td>
